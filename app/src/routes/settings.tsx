@@ -68,6 +68,7 @@ function RouteComponent() {
                   <ListBox.Item
                     key={ThemeOptions.SYSTEM}
                     id={ThemeOptions.SYSTEM}
+                    textValue={t("system")}
                   >
                     <div className="flex gap-[1rem] items-center">
                       <div className="flex justify-center items-center h-[2rem] w-[2rem] bg-accent rounded-lg">
@@ -80,6 +81,7 @@ function RouteComponent() {
                   <ListBox.Item
                     key={ThemeOptions.LIGHT}
                     id={ThemeOptions.LIGHT}
+                    textValue={t("light")}
                   >
                     <div className="flex gap-[1rem] items-center">
                       <div className="flex justify-center items-center h-[2rem] w-[2rem] bg-accent rounded-lg">
@@ -89,7 +91,11 @@ function RouteComponent() {
                     </div>
                     <ListBox.ItemIndicator />
                   </ListBox.Item>
-                  <ListBox.Item key={ThemeOptions.DARK} id={ThemeOptions.DARK}>
+                  <ListBox.Item
+                    key={ThemeOptions.DARK}
+                    id={ThemeOptions.DARK}
+                    textValue={t("dark")}
+                  >
                     <div className="flex gap-[1rem] items-center">
                       <div className="flex justify-center items-center h-[2rem] w-[2rem] bg-accent rounded-lg">
                         <Moon className="text-accent-foreground"></Moon>
@@ -113,7 +119,7 @@ function RouteComponent() {
               </Select.Trigger>
               <Select.Popover>
                 <ListBox>
-                  <ListBox.Item key={"ar"} id={"ar"}>
+                  <ListBox.Item key={"ar"} id={"ar"} textValue={"العربية"}>
                     <div className="flex gap-[1rem] items-center">
                       <div className="flex justify-center items-center h-[2rem] w-[2rem] rounded-lg">
                         {renderFlag("ar")}
@@ -122,7 +128,7 @@ function RouteComponent() {
                     </div>
                     <ListBox.ItemIndicator />
                   </ListBox.Item>
-                  <ListBox.Item key={"fr"} id={"fr"}>
+                  <ListBox.Item key={"fr"} id={"fr"} textValue={"Français"}>
                     <div className="flex gap-[1rem] items-center">
                       <div className="flex justify-center items-center h-[2rem] w-[2rem] rounded-lg">
                         {renderFlag("fr")}
@@ -131,7 +137,7 @@ function RouteComponent() {
                     </div>
                     <ListBox.ItemIndicator />
                   </ListBox.Item>
-                  <ListBox.Item key={"en"} id={"en"}>
+                  <ListBox.Item key={"en"} id={"en"} textValue={"English"}>
                     <div className="flex gap-[1rem] items-center">
                       <div className="flex justify-center items-center h-[2rem] w-[2rem] rounded-lg">
                         {renderFlag("en")}

@@ -50,10 +50,18 @@
     --foreground: #b7bdc9;
 
     --surface: #434c55;
-    --surface-foreground: #b7bdc9;
+    --surface-foreground: var(--foreground);
+
+    --overlay: var(--background);
+    --overlay-foreground: var(--foreground);
 
     --accent: #e16349;
 
     --border: #3e4047;
+
+    --field-background: var(--surface);
+    --field-foreground: var(--foreground);
+    --field-placeholder: color-mix(in_srgb, var(--muted), transparent_30%);
+    --field-border: var(--border);
   }
 }

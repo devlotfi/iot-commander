@@ -14,6 +14,8 @@ import PWAProvider from "./provider/pwa-provider";
 import { ThemeProvider } from "./provider/theme-provider";
 import AppProvider from "./provider/app-provider";
 import NotFound from "./components/not-found";
+import RxDBProvider from "./provider/rxdb-provider";
+import MqttProvider from "./provider/mqtt-provider";
 
 const history = createHashHistory();
 
@@ -45,7 +47,11 @@ createRoot(document.getElementById("root")!).render(
         <PWAProvider>
           <ThemeProvider>
             <AppProvider>
-              <RouterProvider router={router}></RouterProvider>
+              <RxDBProvider>
+                <MqttProvider>
+                  <RouterProvider router={router}></RouterProvider>
+                </MqttProvider>
+              </RxDBProvider>
             </AppProvider>
           </ThemeProvider>
         </PWAProvider>

@@ -1,0 +1,145 @@
+import {
+  useCallback,
+  useEffect,
+  useState,
+  type PropsWithChildren,
+} from "react";
+import { MqttContext, MqttContextInitialValue } from "../context/mqtt-context";
+import type { ConnectionDocType } from "../rxdb/connection";
+import mqtt from "mqtt";
+
+export default function MqttProvider({ children }: PropsWithChildren) {
+  const [connectionData, setConnectionData] = useState(
+    MqttContextInitialValue.connectionData,
+  );
+
+  /* const openLoading = useCallback(() => {
+    onOpenLoading();
+    timeoutRef.current = setTimeout(() => {
+      onCloseLoading();
+      onOpenTimeout();
+    }, 10000) as unknown as number;
+  }, [onCloseLoading, onOpenLoading, onOpenTimeout]); */
+
+  /* const closeLoading = useCallback(() => {
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current);
+      timeoutRef.current = null;
+    }
+    onCloseLoading();
+  }, [onCloseLoading]); */
+
+  const mqttConnect = useCallback(
+    async (connection: ConnectionDocType, password?: string) => {
+      if (connectionData) {
+        await connectionData.client.endAsync();
+      }
+
+      const client = await mqtt.connect(connection.url, {
+        username: connection.username || undefined,
+        password: password || undefined,
+        reconnectPeriod: 1000,
+      });
+
+      setConnectionData(() => ({
+        client,
+        isConnected: false,
+        info: connection,
+      }));
+    },
+    [connectionData],
+  );
+
+  const mqttDisconnect = useCallback(async () => {
+    if (connectionData) {
+      await connectionData.client.endAsync();
+    }
+    setConnectionData(() => null);
+  }, [connectionData]);
+
+  useEffect(() => {
+    const handleConnect = () => {
+      console.log("mqtt-context: connected");
+      //closeLoading();
+      setConnectionData((connectionData) => {
+        if (!connectionData) return null;
+        return {
+          ...connectionData,
+          info: { ...connectionData.info },
+          isConnected: true,
+        };
+      });
+
+      /* if (connectionData) {
+        connectionData.client.subscribe(connectionData.responseTopic, (err) => {
+          if (!err) console.log("Subscribed to ", connectionData.responseTopic);
+        });
+      } */
+    };
+    const handleReconnect = () => {
+      console.log("mqtt-context: reconnect");
+      setConnectionData((connectionData) => {
+        if (!connectionData) return null;
+        return {
+          ...connectionData,
+          info: { ...connectionData.info },
+          isConnected: false,
+        };
+      });
+    };
+
+    const handleDisconnect = () => {
+      console.log("mqtt-context: disconnect");
+      setConnectionData((connectionData) => {
+        if (!connectionData) return null;
+        return {
+          ...connectionData,
+          info: { ...connectionData.info },
+          isConnected: false,
+        };
+      });
+    };
+
+    const handleError = () => {
+      console.log("mqtt-context: error");
+      //closeLoading();
+      setConnectionData((connectionData) => {
+        if (!connectionData) return null;
+        connectionData.client.end(true);
+        return null;
+      });
+      // onOpenError();
+    };
+
+    if (connectionData) {
+      connectionData.client.on("connect", handleConnect);
+      connectionData.client.on("reconnect", handleReconnect);
+      connectionData.client.on("disconnect", handleDisconnect);
+      connectionData.client.on("error", handleError);
+    }
+
+    return () => {
+      if (connectionData) {
+        connectionData.client.removeListener("connect", handleConnect);
+        connectionData.client.removeListener("reconnect", handleReconnect);
+        connectionData.client.removeListener("disconnect", handleDisconnect);
+        connectionData.client.removeListener("error", handleError);
+      }
+    };
+  }, [connectionData]);
+
+  return (
+    <>
+      <MqttContext.Provider
+        value={{
+          connectionData,
+          setConnectionData,
+          mqttConnect,
+          mqttDisconnect,
+        }}
+      >
+        {children}
+      </MqttContext.Provider>
+    </>
+  );
+}

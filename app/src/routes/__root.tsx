@@ -15,7 +15,7 @@ function RootComponent() {
         <Sidebar></Sidebar>
         <div className="flex flex-1 flex-col min-w-0">
           <Navbar></Navbar>
-          <div className="flex h-[calc(100dvh-4rem-5rem)] md:h-[calc(100dvh-4rem)] min-w-0 rounded-4xl md:rounded-none md:rounded-tl-4xl bg-[color-mix(in_srgb,var(--surface),transparent_95%)] border overflow-x-hidden overflow-y-auto">
+          <div className="flex h-[calc(100dvh-4rem-5rem)] md:h-[calc(100dvh-4rem)] min-w-0 rounded-4xl md:rounded-none md:rounded-tl-4xl bg-[color-mix(in_srgb,var(--surface),transparent_85%)] border overflow-x-hidden overflow-y-auto">
             <Outlet />
           </div>
           <BottomTabs></BottomTabs>
