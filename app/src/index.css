@@ -37,6 +37,15 @@
     --accent: #e16349;
 
     --border: #eeedef;
+
+    --field-background: var(--background);
+    --field-foreground: var(--foreground);
+    --field-placeholder: color-mix(in_srgb, var(--muted), transparent_30%);
+    --field-border: var(--border);
+
+    --surface-shadow: 0 0 0 0 transparent inset;
+    --overlay-shadow: 0 0 0 0 transparent inset;
+    --field-shadow: 0 0 0 0 transparent inset;
   }
 
   .dark,
@@ -52,6 +61,9 @@
     --surface: #434c55;
     --surface-foreground: var(--foreground);
 
+    --default: #343940;
+    --default-foreground: var(--foreground);
+
     --overlay: var(--background);
     --overlay-foreground: var(--foreground);
 
@@ -63,5 +75,9 @@
     --field-foreground: var(--foreground);
     --field-placeholder: color-mix(in_srgb, var(--muted), transparent_30%);
     --field-border: var(--border);
+
+    --surface-shadow: 0 0 0 0 transparent inset;
+    --overlay-shadow: 0 0 0 0 transparent inset;
+    --field-shadow: 0 0 0 0 transparent inset;
   }
 }

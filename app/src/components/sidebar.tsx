@@ -103,7 +103,7 @@ export default function Sidebar() {
   return (
     <div
       className={cn(
-        "hidden md:flex flex-col min-w-[5rem] duration-500 transition-[width]",
+        "hidden md:flex flex-col min-w-[5rem] duration-500 transition-[width] bg-[color-mix(in_srgb,var(--surface),transparent_85%)] border-r",
         sidebarOpen ? "lg:w-[16rem]" : "w-[5rem]",
       )}
     >

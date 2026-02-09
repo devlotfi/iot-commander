@@ -8,7 +8,7 @@ export default function Navbar() {
   const { sidebarOpen, setSidebarOpen } = useContext(AppContext);
 
   return (
-    <div className="flex justify-between items-center h-[4rem] px-[1rem] md:pl-0">
+    <div className="flex justify-between items-center h-[4rem] px-[1rem] rounded-bl-4xl rounded-br-4xl md:rounded-none bg-[color-mix(in_srgb,var(--surface),transparent_85%)] border-b">
       <div className="flex items-center gap-[1rem]">
         <Button
           isIconOnly

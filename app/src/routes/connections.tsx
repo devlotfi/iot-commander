@@ -43,10 +43,10 @@ function RouteComponent() {
             <Button
               isIconOnly
               variant="outline"
-              className="h-[3rem] w-[3rem]"
+              className="h-[3rem] w-[3rem] text-foreground"
               onPress={() => addConnectionModalState.open()}
             >
-              <Plus className="h-[2.5rem] w-[2.5rem]"></Plus>
+              <Plus className="h-[2rem] w-[2rem]"></Plus>
             </Button>
           </div>
 
@@ -77,6 +77,7 @@ function RouteComponent() {
                 variant="primary"
                 onPress={() => addConnectionModalState.open()}
               >
+                <Plus></Plus>
                 {t("addConnection")}
               </Button>
             </div>

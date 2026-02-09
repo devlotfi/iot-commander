@@ -22,7 +22,7 @@ export default function SectionHeader({
   return (
     <div
       className={cn(
-        "flex items-center gap-[1rem] md:gap-[2rem] py-[2rem]",
+        "flex items-center gap-[1rem] md:gap-[2rem] py-[2rem] pl-[1rem]",
         className,
       )}
       {...props}
