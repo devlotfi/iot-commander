@@ -10,11 +10,28 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@heroui/react": "3.0.0-beta.6",
+    "@heroui/styles": "3.0.0-beta.6",
+    "@tailwindcss/vite": "^4.1.18",
+    "@tanstack/react-form": "^1.28.0",
+    "@tanstack/react-query": "^5.90.20",
+    "@tanstack/react-router": "^1.158.4",
+    "@tanstack/react-router-devtools": "^1.158.4",
+    "i18next": "^25.8.4",
+    "i18next-browser-languagedetector": "^8.2.0",
+    "lucide-react": "^0.563.0",
+    "motion": "^12.33.0",
+    "mqtt": "^5.15.0",
     "react": "^19.2.0",
-    "react-dom": "^19.2.0"
+    "react-dom": "^19.2.0",
+    "react-i18next": "^16.5.4",
+    "tailwindcss": "^4.1.18",
+    "uuid": "^13.0.0",
+    "zod": "^4.3.6"
   },
   "devDependencies": {
     "@eslint/js": "^9.37.0",
+    "@tanstack/router-plugin": "^1.158.4",
     "@types/node": "^24.6.2",
     "@types/react": "^19.2.0",
     "@types/react-dom": "^19.2.0",

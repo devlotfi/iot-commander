@@ -1,0 +1,151 @@
+import { Card, cn, Label, ListBox, Select } from "@heroui/react";
+import { createFileRoute } from "@tanstack/react-router";
+import { useContext } from "react";
+import { useTranslation } from "react-i18next";
+import ArSVG from "../assets/flags/ar.svg";
+import FrSVG from "../assets/flags/fr.svg";
+import EnSVG from "../assets/flags/en.svg";
+import { ThemeContext } from "../context/theme-context";
+import { ThemeOptions } from "../types/theme-options";
+import { Computer, Moon, Sun } from "lucide-react";
+import SectionHeader from "../components/section-header";
+
+export const Route = createFileRoute("/settings")({
+  component: RouteComponent,
+});
+
+function RouteComponent() {
+  const { themeOption, setTheme } = useContext(ThemeContext);
+  const { t, i18n } = useTranslation();
+
+  const renderFlag = (languageCode: string, className?: string) => {
+    switch (languageCode) {
+      case "ar":
+        return (
+          <img
+            src={ArSVG}
+            alt="ar"
+            className={cn("h-[1.5rem]", className)}
+          ></img>
+        );
+      case "fr":
+        return (
+          <img
+            src={FrSVG}
+            alt="fr"
+            className={cn("h-[1.5rem]", className)}
+          ></img>
+        );
+      case "en":
+        return (
+          <img
+            src={EnSVG}
+            alt="eb"
+            className={cn("h-[1.5rem]", className)}
+          ></img>
+        );
+    }
+  };
+
+  return (
+    <div className="flex flex-1 flex-col items-center p-[1rem]">
+      <div className="flex flex-col w-full max-w-screen-sm pt-[2rem]">
+        <SectionHeader icon="settings">Settings</SectionHeader>
+
+        <Card className="bg-[color-mix(in_srgb,var(--surface),transparent_80%)] border shadow-none">
+          <Card.Content className="flex flex-col gap-[0.7rem]">
+            <Select
+              value={themeOption}
+              onChange={(value) => setTheme(value?.toString() as ThemeOptions)}
+            >
+              <Label>Theme</Label>
+              <Select.Trigger className="bg-[color-mix(in_srgb,var(--surface),transparent_75%)] border border-border shadow-none">
+                <Select.Value />
+                <Select.Indicator />
+              </Select.Trigger>
+              <Select.Popover>
+                <ListBox>
+                  <ListBox.Item
+                    key={ThemeOptions.SYSTEM}
+                    id={ThemeOptions.SYSTEM}
+                  >
+                    <div className="flex gap-[1rem] items-center">
+                      <div className="flex justify-center items-center h-[2rem] w-[2rem] bg-accent rounded-lg">
+                        <Computer className="text-accent-foreground"></Computer>
+                      </div>
+                      <div className="flex">{t("system")}</div>
+                    </div>
+                    <ListBox.ItemIndicator />
+                  </ListBox.Item>
+                  <ListBox.Item
+                    key={ThemeOptions.LIGHT}
+                    id={ThemeOptions.LIGHT}
+                  >
+                    <div className="flex gap-[1rem] items-center">
+                      <div className="flex justify-center items-center h-[2rem] w-[2rem] bg-accent rounded-lg">
+                        <Sun className="text-accent-foreground"></Sun>
+                      </div>
+                      <div className="flex">{t("light")}</div>
+                    </div>
+                    <ListBox.ItemIndicator />
+                  </ListBox.Item>
+                  <ListBox.Item key={ThemeOptions.DARK} id={ThemeOptions.DARK}>
+                    <div className="flex gap-[1rem] items-center">
+                      <div className="flex justify-center items-center h-[2rem] w-[2rem] bg-accent rounded-lg">
+                        <Moon className="text-accent-foreground"></Moon>
+                      </div>
+                      <div className="flex">{t("dark")}</div>
+                    </div>
+                    <ListBox.ItemIndicator />
+                  </ListBox.Item>
+                </ListBox>
+              </Select.Popover>
+            </Select>
+
+            <Select
+              value={i18n.language}
+              onChange={(value) => i18n.changeLanguage(value?.toString())}
+            >
+              <Label>{t("language")}</Label>
+              <Select.Trigger className="bg-[color-mix(in_srgb,var(--surface),transparent_75%)] border border-border shadow-none">
+                <Select.Value />
+                <Select.Indicator />
+              </Select.Trigger>
+              <Select.Popover>
+                <ListBox>
+                  <ListBox.Item key={"ar"} id={"ar"}>
+                    <div className="flex gap-[1rem] items-center">
+                      <div className="flex justify-center items-center h-[2rem] w-[2rem] rounded-lg">
+                        {renderFlag("ar")}
+                      </div>
+                      <div className="flex">العربية</div>
+                    </div>
+                    <ListBox.ItemIndicator />
+                  </ListBox.Item>
+                  <ListBox.Item key={"fr"} id={"fr"}>
+                    <div className="flex gap-[1rem] items-center">
+                      <div className="flex justify-center items-center h-[2rem] w-[2rem] rounded-lg">
+                        {renderFlag("fr")}
+                      </div>
+                      <div className="flex">Français</div>
+                    </div>
+                    <ListBox.ItemIndicator />
+                  </ListBox.Item>
+                  <ListBox.Item key={"en"} id={"en"}>
+                    <div className="flex gap-[1rem] items-center">
+                      <div className="flex justify-center items-center h-[2rem] w-[2rem] rounded-lg">
+                        {renderFlag("en")}
+                      </div>
+                      <div className="flex">English</div>
+                    </div>
+                    <ListBox.ItemIndicator />
+                  </ListBox.Item>
+                </ListBox>
+              </Select.Popover>
+            </Select>
+          </Card.Content>
+        </Card>
+      </div>
+    </div>
+  );
+}
