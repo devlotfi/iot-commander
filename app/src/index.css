@@ -37,6 +37,7 @@
     --accent: #e16349;
 
     --border: #eeedef;
+    --separator: #c0c4cf;
 
     --field-background: var(--background);
     --field-foreground: var(--foreground);
@@ -70,6 +71,7 @@
     --accent: #e16349;
 
     --border: #3e4047;
+    --separator: #6f7787;
 
     --field-background: var(--surface);
     --field-foreground: var(--foreground);

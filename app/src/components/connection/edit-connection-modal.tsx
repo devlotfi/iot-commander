@@ -7,7 +7,7 @@ import {
   type UseOverlayStateReturn,
 } from "@heroui/react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { Plus } from "lucide-react";
+import { Pen } from "lucide-react";
 import { useContext, useState } from "react";
 import { useTranslation } from "react-i18next";
 import * as yup from "yup";
@@ -15,26 +15,33 @@ import { RxDBContext } from "../../context/rxdb-context";
 import { useFormik } from "formik";
 import ValidatedTextField from "../validated-text-field";
 import type { ConnectionDocType } from "../../rxdb/connection";
-import { v4 as uuid } from "uuid";
 
-interface AddConnectionModalProps {
+interface EditConnectionModalProps {
   state: UseOverlayStateReturn;
+  connection: ConnectionDocType;
 }
 
-export default function AddConnectionModal({ state }: AddConnectionModalProps) {
+export default function EditConnectionModal({
+  state,
+  connection,
+}: EditConnectionModalProps) {
   const { t } = useTranslation();
   const { rxdb } = useContext(RxDBContext);
   const queryClient = useQueryClient();
 
   const { mutate, isPending } = useMutation({
-    mutationFn: async (connection: Omit<ConnectionDocType, "id">) => {
-      await rxdb.connections.insert({
-        id: uuid(),
-        name: connection.name,
-        url: connection.url,
-        discoveryTopic: connection.discoveryTopic,
-        responseDiscoveryTopic: connection.responseDiscoveryTopic,
-        username: connection.username,
+    mutationFn: async (values: Omit<ConnectionDocType, "id">) => {
+      console.log(values);
+      const doc = await rxdb.connections.findOne(connection.id).exec();
+      if (!doc) return;
+      await doc.incrementalModify((data) => {
+        data.name = values.name;
+        data.name = values.name;
+        data.url = values.url;
+        data.discoveryTopic = values.discoveryTopic;
+        data.responseDiscoveryTopic = values.responseDiscoveryTopic;
+        data.username = values.username || null;
+        return data;
       });
       queryClient.resetQueries({
         queryKey: ["CONNECTIONS"],
@@ -45,11 +52,11 @@ export default function AddConnectionModal({ state }: AddConnectionModalProps) {
 
   const formik = useFormik({
     initialValues: {
-      name: "",
-      url: "",
-      username: "",
-      discoveryTopic: "iot-commander/discovery-topic",
-      responseDiscoveryTopic: "iot-commander/response-discovery-topic",
+      name: connection.name,
+      url: connection.url,
+      username: connection.username || "",
+      discoveryTopic: connection.discoveryTopic,
+      responseDiscoveryTopic: connection.responseDiscoveryTopic,
     },
     validationSchema: yup.object({
       name: yup.string().required(),
@@ -71,7 +78,9 @@ export default function AddConnectionModal({ state }: AddConnectionModalProps) {
     },
   });
 
-  const [useAuth, setUseAuth] = useState<boolean>(true);
+  const [useAuth, setUseAuth] = useState<boolean>(
+    connection.username ? true : false,
+  );
 
   return (
     <Modal.Backdrop
@@ -84,11 +93,11 @@ export default function AddConnectionModal({ state }: AddConnectionModalProps) {
           <Modal.CloseTrigger />
           <Modal.Header>
             <Modal.Icon className="bg-accent-soft text-accent-soft-foreground">
-              <Plus className="size-5" />
+              <Pen className="size-5" />
             </Modal.Icon>
-            <Modal.Heading>{t("addConnection")}</Modal.Heading>
+            <Modal.Heading>{t("editConnection")}</Modal.Heading>
           </Modal.Header>
-          <Modal.Body className="p-[0.3rem]">
+          <Modal.Body className="p-[0.1rem]">
             <Form
               onSubmit={formik.handleSubmit}
               className="flex flex-col gap-[0.5rem]"
@@ -138,7 +147,7 @@ export default function AddConnectionModal({ state }: AddConnectionModalProps) {
                 type="submit"
                 className="mt-[1rem]"
               >
-                {t("add")}
+                {t("edit")}
               </Button>
             </Form>
           </Modal.Body>

@@ -2,17 +2,21 @@
 import {
   TextField,
   Label,
-  Input,
   FieldError,
   type TextFieldProps,
   type LabelProps,
   type InputProps,
   type FieldErrorProps,
+  InputGroup,
+  cn,
 } from "@heroui/react";
+import type { ReactElement } from "react";
 
 interface ValidatedTextFieldProps {
   formik: any;
   name: string;
+  prefix?: ReactElement;
+  suffix?: ReactElement;
   textFieldProps?: TextFieldProps;
   labelProps?: LabelProps;
   inputProps?: InputProps;
@@ -22,21 +26,35 @@ interface ValidatedTextFieldProps {
 export default function ValidatedTextField({
   formik,
   name,
-  textFieldProps,
+  prefix,
+  suffix,
+  textFieldProps: { className, ...textFieldProps } = {},
   labelProps,
   inputProps,
   fieldErrorProps,
 }: ValidatedTextFieldProps) {
   return (
-    <TextField variant="secondary" fullWidth name={name} {...textFieldProps}>
+    <TextField
+      variant="secondary"
+      fullWidth
+      name={name}
+      className={cn("flex flex-col", className)}
+      {...textFieldProps}
+    >
       <Label {...labelProps}></Label>
-      <Input
-        name={name}
-        value={formik.values[name]}
-        onBlur={formik.handleBlur}
-        onChange={formik.handleChange}
-        {...inputProps}
-      />
+
+      <InputGroup>
+        {prefix ? <InputGroup.Prefix>{prefix}</InputGroup.Prefix> : null}
+        <InputGroup.Input
+          name={name}
+          value={formik.values[name]}
+          onBlur={formik.handleBlur}
+          onChange={formik.handleChange}
+          {...inputProps}
+        />
+        {suffix ? <InputGroup.Suffix>{suffix}</InputGroup.Suffix> : null}
+      </InputGroup>
+
       {formik.errors[name] && formik.touched[name] && (
         <FieldError {...fieldErrorProps}>{formik.errors[name]}</FieldError>
       )}

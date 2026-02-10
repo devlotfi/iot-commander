@@ -80,10 +80,10 @@ export function ThemeProvider({ children }: PropsWithChildren) {
 
     switch (appliedTheme) {
       case ThemeOptions.LIGHT:
-        metaTag.setAttribute("content", "#D5D5D5");
+        metaTag.setAttribute("content", "#DBDBDB");
         break;
       case ThemeOptions.DARK:
-        metaTag.setAttribute("content", "#23262B");
+        metaTag.setAttribute("content", "#282B32");
         break;
     }
   }, [appliedTheme]);

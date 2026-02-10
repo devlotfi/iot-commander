@@ -10,6 +10,7 @@ import { useTranslation } from "react-i18next";
 import SectionHeader from "../components/section-header";
 import { Plus } from "lucide-react";
 import AddConnectionModal from "../components/connection/add-connection-modal";
+import Connection from "../components/connection/connection";
 
 export const Route = createFileRoute("/connections")({
   component: RouteComponent,
@@ -43,10 +44,10 @@ function RouteComponent() {
             <Button
               isIconOnly
               variant="outline"
-              className="h-[3rem] w-[3rem] text-foreground"
+              className="size-[3rem] text-foreground bg-[color-mix(in_srgb,var(--surface),transparent_85%)]"
               onPress={() => addConnectionModalState.open()}
             >
-              <Plus className="h-[2rem] w-[2rem]"></Plus>
+              <Plus className="size-[2rem]"></Plus>
             </Button>
           </div>
 
@@ -57,7 +58,10 @@ function RouteComponent() {
           ) : data && data.length ? (
             <div className="flex flex-col flex-1 mt-[0.5rem] gap-[1rem] pl-[1rem] pr-[2.5rem] pb-[5rem]">
               {data.map((connection) => (
-                <div key={connection.id}>{connection.name}</div>
+                <Connection
+                  key={connection.id}
+                  connection={connection}
+                ></Connection>
               ))}
             </div>
           ) : (

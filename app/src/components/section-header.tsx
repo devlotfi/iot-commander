@@ -22,7 +22,7 @@ export default function SectionHeader({
   return (
     <div
       className={cn(
-        "flex items-center gap-[1rem] md:gap-[2rem] py-[2rem] pl-[1rem]",
+        "flex items-center gap-[1rem] md:gap-[2rem] py-[2rem]",
         className,
       )}
       {...props}
@@ -34,7 +34,7 @@ export default function SectionHeader({
         )}
         style={{
           boxShadow:
-            "color-mix(in srgb, var(--accent), transparent 0%) 0 0 5rem 0",
+            "color-mix(in srgb, var(--accent), transparent 30%) 0 0 3rem 0",
         }}
         {...iconWrapperProps}
       >
