@@ -8,6 +8,22 @@ export interface ConnectionData {
   info: ConnectionDocType;
 }
 
+export function copyConnectionData(
+  connectionData: ConnectionData,
+): ConnectionData {
+  return {
+    ...connectionData,
+    info: {
+      id: connectionData.info.id,
+      name: connectionData.info.name,
+      url: connectionData.info.url,
+      discoveryTopic: connectionData.info.discoveryTopic,
+      responseDiscoveryTopic: connectionData.info.responseDiscoveryTopic,
+      username: connectionData.info.username,
+    },
+  };
+}
+
 interface MqttContext {
   connectionData: ConnectionData | null;
   setConnectionData: (value: SetStateAction<ConnectionData | null>) => void;

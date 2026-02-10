@@ -4,18 +4,21 @@ import type { ComponentProps } from "react";
 interface DataRowProps extends ComponentProps<"div"> {
   name: string;
   value: string;
+  fold?: boolean;
 }
 
 export default function DataRow({
   name,
   value,
+  fold = false,
   className,
   ...props
 }: DataRowProps) {
   return (
     <div
       className={cn(
-        "flex flex-col md:flex-row md:gap-[0.5rem] mb-[0.3rem] md:mb-0",
+        "flex flex-col mb-[0.3rem]",
+        !fold && "md:flex-row md:gap-[0.5rem] md:mb-0",
         className,
       )}
       {...props}

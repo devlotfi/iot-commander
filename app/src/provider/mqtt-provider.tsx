@@ -4,9 +4,15 @@ import {
   useState,
   type PropsWithChildren,
 } from "react";
-import { MqttContext, MqttContextInitialValue } from "../context/mqtt-context";
+import {
+  copyConnectionData,
+  MqttContext,
+  MqttContextInitialValue,
+} from "../context/mqtt-context";
 import type { ConnectionDocType } from "../rxdb/connection";
 import mqtt from "mqtt";
+import { toast } from "@heroui/react";
+import { SatelliteDish } from "lucide-react";
 
 export default function MqttProvider({ children }: PropsWithChildren) {
   const [connectionData, setConnectionData] = useState(
@@ -44,7 +50,14 @@ export default function MqttProvider({ children }: PropsWithChildren) {
       setConnectionData(() => ({
         client,
         isConnected: false,
-        info: connection,
+        info: {
+          id: connection.id,
+          name: connection.name,
+          url: connection.url,
+          discoveryTopic: connection.discoveryTopic,
+          responseDiscoveryTopic: connection.responseDiscoveryTopic,
+          username: connection.username,
+        },
       }));
     },
     [connectionData],
@@ -60,12 +73,17 @@ export default function MqttProvider({ children }: PropsWithChildren) {
   useEffect(() => {
     const handleConnect = () => {
       console.log("mqtt-context: connected");
-      //closeLoading();
+      toast("You have been invited to join a team", {
+        description: "Bob sent you an invitation to join HeroUI team",
+        indicator: <SatelliteDish />,
+        variant: "success",
+      });
       setConnectionData((connectionData) => {
+        console.log(connectionData);
+
         if (!connectionData) return null;
         return {
-          ...connectionData,
-          info: { ...connectionData.info },
+          ...copyConnectionData(connectionData),
           isConnected: true,
         };
       });
@@ -81,8 +99,7 @@ export default function MqttProvider({ children }: PropsWithChildren) {
       setConnectionData((connectionData) => {
         if (!connectionData) return null;
         return {
-          ...connectionData,
-          info: { ...connectionData.info },
+          ...copyConnectionData(connectionData),
           isConnected: false,
         };
       });
@@ -93,8 +110,7 @@ export default function MqttProvider({ children }: PropsWithChildren) {
       setConnectionData((connectionData) => {
         if (!connectionData) return null;
         return {
-          ...connectionData,
-          info: { ...connectionData.info },
+          ...copyConnectionData(connectionData),
           isConnected: false,
         };
       });

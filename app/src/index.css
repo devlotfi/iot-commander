@@ -21,6 +21,12 @@
   font-style: normal;
 }
 
+@layer components {
+  .toast {
+    @apply bg-overlay;
+  }
+}
+
 @layer base {
   :root {
     color-scheme: light;

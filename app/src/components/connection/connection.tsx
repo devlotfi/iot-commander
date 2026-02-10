@@ -8,7 +8,7 @@ import DataRow from "../data-row";
 import { useMutation } from "@tanstack/react-query";
 import PasswordModal from "./password-modal";
 import { useTranslation } from "react-i18next";
-import { Pen, Trash } from "lucide-react";
+import { Pen, Plug, Trash, Unplug } from "lucide-react";
 
 interface ConnectionProps {
   connection: ConnectionDocType;
@@ -99,7 +99,40 @@ export default function Connection({ connection }: ConnectionProps) {
       </Card.Content>
 
       <div className="flex items-center">
-        <h1>lol</h1>
+        {connectionData && connectionData.info.id === connection.id ? (
+          <Button
+            isIconOnly
+            variant="danger"
+            isPending={isPendingDisconnect}
+            className="absolute size-[2.8rem] right-0 translate-x-[50%] z-10"
+            onPress={() => mutateDisconnect()}
+          >
+            <Unplug className="size-[1.3rem]"></Unplug>
+          </Button>
+        ) : (
+          <Button
+            isIconOnly
+            variant="primary"
+            isPending={isPendingConnect}
+            isDisabled={connectionData != null}
+            className="absolute size-[2.8rem] right-0 translate-x-[50%] z-10"
+            style={{
+              boxShadow:
+                "color-mix(in srgb, var(--accent), transparent 50%) 0 0 2rem 0",
+            }}
+            onPress={() => {
+              console.log("lol", connection.username);
+              if (connection.username) {
+                console.log("lol");
+                passwordState.open();
+              } else {
+                mutateConnect(undefined);
+              }
+            }}
+          >
+            <Plug className="size-[1.3rem]"></Plug>
+          </Button>
+        )}
       </div>
     </Card>
   );
