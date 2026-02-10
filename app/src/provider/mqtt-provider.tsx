@@ -13,8 +13,10 @@ import type { ConnectionDocType } from "../rxdb/connection";
 import mqtt from "mqtt";
 import { toast } from "@heroui/react";
 import { SatelliteDish } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 export default function MqttProvider({ children }: PropsWithChildren) {
+  const { t } = useTranslation();
   const [connectionData, setConnectionData] = useState(
     MqttContextInitialValue.connectionData,
   );
@@ -73,11 +75,11 @@ export default function MqttProvider({ children }: PropsWithChildren) {
   useEffect(() => {
     const handleConnect = () => {
       console.log("mqtt-context: connected");
-      toast("You have been invited to join a team", {
-        description: "Bob sent you an invitation to join HeroUI team",
+      toast(t("connected"), {
         indicator: <SatelliteDish />,
         variant: "success",
       });
+
       setConnectionData((connectionData) => {
         console.log(connectionData);
 
@@ -107,6 +109,11 @@ export default function MqttProvider({ children }: PropsWithChildren) {
 
     const handleDisconnect = () => {
       console.log("mqtt-context: disconnect");
+      toast(t("disconnected"), {
+        indicator: <SatelliteDish />,
+        variant: "danger",
+      });
+
       setConnectionData((connectionData) => {
         if (!connectionData) return null;
         return {
@@ -118,13 +125,16 @@ export default function MqttProvider({ children }: PropsWithChildren) {
 
     const handleError = () => {
       console.log("mqtt-context: error");
-      //closeLoading();
+      toast(t("error"), {
+        indicator: <SatelliteDish />,
+        variant: "danger",
+      });
+
       setConnectionData((connectionData) => {
         if (!connectionData) return null;
         connectionData.client.end(true);
         return null;
       });
-      // onOpenError();
     };
 
     if (connectionData) {
@@ -142,7 +152,7 @@ export default function MqttProvider({ children }: PropsWithChildren) {
         connectionData.client.removeListener("error", handleError);
       }
     };
-  }, [connectionData]);
+  }, [connectionData, t]);
 
   return (
     <>

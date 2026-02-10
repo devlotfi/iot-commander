@@ -59,7 +59,7 @@ function RouteComponent() {
               onChange={(value) => setTheme(value?.toString() as ThemeOptions)}
             >
               <Label>Theme</Label>
-              <Select.Trigger className="bg-[color-mix(in_srgb,var(--surface),transparent_75%)] border border-border shadow-none">
+              <Select.Trigger>
                 <Select.Value />
                 <Select.Indicator />
               </Select.Trigger>
@@ -113,7 +113,7 @@ function RouteComponent() {
               onChange={(value) => i18n.changeLanguage(value?.toString())}
             >
               <Label>{t("language")}</Label>
-              <Select.Trigger className="bg-[color-mix(in_srgb,var(--surface),transparent_75%)] border border-border shadow-none">
+              <Select.Trigger>
                 <Select.Value />
                 <Select.Indicator />
               </Select.Trigger>

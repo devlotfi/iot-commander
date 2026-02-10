@@ -43,7 +43,7 @@ createRoot(document.getElementById("root")!).render(
       }}
     >
       <QueryClientProvider client={queryClient}>
-        <Toast.Provider></Toast.Provider>
+        <Toast.Provider placement="top"></Toast.Provider>
         <PWAProvider>
           <ThemeProvider>
             <AppProvider>

@@ -25,6 +25,52 @@
   .toast {
     @apply bg-overlay;
   }
+
+  .modal__dialog {
+    @apply border border-border;
+    background: linear-gradient(
+      to top,
+      color-mix(in srgb, var(--accent), var(--background) 90%),
+      color-mix(in srgb, var(--surface), var(--background) 95%)
+    );
+  }
+
+  .input-group {
+    @apply border border-border;
+    background: color-mix(in srgb, var(--surface), transparent 80%) !important;
+  }
+
+  .select__popover {
+    @apply border border-border shadow-md;
+    background: linear-gradient(
+      to top,
+      color-mix(in srgb, var(--accent), var(--background) 95%),
+      color-mix(in srgb, var(--surface), var(--background) 95%)
+    );
+  }
+
+  .popover {
+    @apply border border-border shadow-md;
+    background: linear-gradient(
+      to top,
+      color-mix(in srgb, var(--accent), var(--background) 95%),
+      color-mix(in srgb, var(--surface), var(--background) 95%)
+    );
+  }
+
+  .toast {
+    @apply border border-border shadow-md;
+    background: linear-gradient(
+      to top,
+      color-mix(in srgb, var(--accent), var(--background) 95%),
+      color-mix(in srgb, var(--surface), var(--background) 95%)
+    );
+  }
+
+  .select__trigger {
+    @apply shadow-none border border-border;
+    background: color-mix(in srgb, var(--surface), transparent 80%) !important;
+  }
 }
 
 @layer base {

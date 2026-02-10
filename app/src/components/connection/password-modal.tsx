@@ -1,5 +1,5 @@
 import { Button, Form, Modal, type UseOverlayStateReturn } from "@heroui/react";
-import { Plus } from "lucide-react";
+import { Eye, EyeOff, Plus } from "lucide-react";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import * as yup from "yup";
@@ -60,6 +60,16 @@ export default function AddConnectionModal({
                   type: isVisible ? "text" : "password",
                 }}
                 labelProps={{ children: t("password") }}
+                suffix={
+                  <Button
+                    isIconOnly
+                    variant="ghost"
+                    size="sm"
+                    onPress={toggleVisibility}
+                  >
+                    {isVisible ? <EyeOff></EyeOff> : <Eye></Eye>}
+                  </Button>
+                }
               ></ValidatedTextField>
 
               <Button fullWidth type="submit" className="mt-[1rem]">
