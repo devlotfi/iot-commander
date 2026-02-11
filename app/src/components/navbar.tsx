@@ -1,16 +1,18 @@
 import { Button, cn, Popover } from "@heroui/react";
-import { Cable, ChevronsLeft, CircleOff, Unplug } from "lucide-react";
+import { Cable, ChevronsLeft, CircleOff, Download, Unplug } from "lucide-react";
 import LogoSVG from "../assets/logo.svg";
 import { useContext } from "react";
 import { AppContext } from "../context/app-context";
 import { MqttContext } from "../context/mqtt-context";
 import DataRow from "./data-row";
 import { useTranslation } from "react-i18next";
+import { PWAContext } from "../context/pwa-context";
 
 export default function Navbar() {
   const { t } = useTranslation();
   const { sidebarOpen, setSidebarOpen } = useContext(AppContext);
-  const { connectionData } = useContext(MqttContext);
+  const { connectionData, mqttDisconnect } = useContext(MqttContext);
+  const { beforeInstallPromptEvent } = useContext(PWAContext);
 
   return (
     <div className="flex justify-between items-center h-[4rem] px-[1rem] rounded-bl-4xl rounded-br-4xl md:rounded-none bg-[color-mix(in_srgb,var(--surface),transparent_85%)] border-b">
@@ -29,7 +31,7 @@ export default function Navbar() {
             )}
           />
         </Button>
-        <img src={LogoSVG} alt="logo" className="h-[3.3rem]" />
+        <img src={LogoSVG} alt="logo" className="h-[3rem] md:h-[3.3rem]" />
         <div
           className="flex font-bold text-[17pt]"
           style={{ fontFamily: "Doto" }}
@@ -38,7 +40,17 @@ export default function Navbar() {
         </div>
       </div>
 
-      <div className="flex">
+      <div className="flex gap-[0.5rem]">
+        {beforeInstallPromptEvent ? (
+          <Button
+            isIconOnly
+            variant="outline"
+            className="size-[2.5rem] text-foreground bg-[color-mix(in_srgb,var(--surface),transparent_60%)]"
+          >
+            <Download className="size-[1.4rem]"></Download>
+          </Button>
+        ) : null}
+
         <Popover>
           <Button
             isIconOnly
@@ -68,8 +80,17 @@ export default function Navbar() {
               {connectionData ? (
                 connectionData.isConnected ? (
                   <>
-                    <Popover.Heading className="text-success">
-                      {t("connected")}
+                    <Popover.Heading className="flex flex-row justify-between items-center">
+                      <div className="flex text-success">{t("connected")}</div>
+                      <Button
+                        isIconOnly
+                        variant="outline"
+                        size="lg"
+                        className="bg-[color-mix(in_srgb,var(--surface),transparent_80%)]"
+                        onPress={() => mqttDisconnect()}
+                      >
+                        <Unplug className="size-[1.5rem] text-danger-soft-foreground"></Unplug>
+                      </Button>
                     </Popover.Heading>
                     <div className="flex flex-col mt-2 text-sm text-muted">
                       <DataRow
@@ -88,8 +109,19 @@ export default function Navbar() {
                   </>
                 ) : (
                   <>
-                    <Popover.Heading className="text-danger">
-                      {t("connected")}
+                    <Popover.Heading className="flex flex-row justify-between items-center">
+                      <div className="flex text-success">
+                        {t("disconnected")}
+                      </div>
+                      <Button
+                        isIconOnly
+                        variant="outline"
+                        size="lg"
+                        className="bg-[color-mix(in_srgb,var(--surface),transparent_80%)]"
+                        onPress={() => mqttDisconnect()}
+                      >
+                        <Unplug className="size-[1.5rem] text-danger-soft-foreground"></Unplug>
+                      </Button>
                     </Popover.Heading>
                     <div className="flex flex-col mt-2 text-sm text-muted">
                       <DataRow

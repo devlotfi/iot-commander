@@ -1,5 +1,5 @@
 import { Button, Form, Modal, type UseOverlayStateReturn } from "@heroui/react";
-import { Eye, EyeOff, Plus } from "lucide-react";
+import { Eye, EyeOff, Key } from "lucide-react";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import * as yup from "yup";
@@ -43,7 +43,7 @@ export default function AddConnectionModal({
           <Modal.CloseTrigger />
           <Modal.Header>
             <Modal.Icon className="bg-accent-soft text-accent-soft-foreground">
-              <Plus className="size-5" />
+              <Key className="size-5" />
             </Modal.Icon>
             <Modal.Heading>{t("connectionAuthenthication")}</Modal.Heading>
           </Modal.Header>

@@ -102,9 +102,13 @@ export default function Connection({ connection }: ConnectionProps) {
         {connectionData && connectionData.info.id === connection.id ? (
           <Button
             isIconOnly
-            variant="danger"
+            variant="outline"
             isPending={isPendingDisconnect}
-            className="absolute size-[2.8rem] right-0 translate-x-[50%] z-10"
+            className="absolute size-[2.8rem] right-0 translate-x-[50%] z-10 text-danger-soft-foreground"
+            style={{
+              background:
+                "linear-gradient(to top,color-mix(in srgb, var(--accent), var(--background) 95%),color-mix(in srgb, var(--surface), var(--background) 95%))",
+            }}
             onPress={() => mutateDisconnect()}
           >
             <Unplug className="size-[1.3rem]"></Unplug>
