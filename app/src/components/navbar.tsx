@@ -1,4 +1,4 @@
-import { Button, cn, Popover } from "@heroui/react";
+import { Button, Chip, cn, Popover } from "@heroui/react";
 import { Cable, ChevronsLeft, CircleOff, Download, Unplug } from "lucide-react";
 import LogoSVG from "../assets/logo.svg";
 import { useContext } from "react";
@@ -81,7 +81,9 @@ export default function Navbar() {
                 connectionData.isConnected ? (
                   <>
                     <Popover.Heading className="flex flex-row justify-between items-center">
-                      <div className="flex text-success">{t("connected")}</div>
+                      <Chip color="success" variant="primary">
+                        {t("connected")}
+                      </Chip>
                       <Button
                         isIconOnly
                         variant="outline"
@@ -110,9 +112,9 @@ export default function Navbar() {
                 ) : (
                   <>
                     <Popover.Heading className="flex flex-row justify-between items-center">
-                      <div className="flex text-success">
+                      <Chip color="danger" variant="primary">
                         {t("disconnected")}
-                      </div>
+                      </Chip>
                       <Button
                         isIconOnly
                         variant="outline"
@@ -142,7 +144,13 @@ export default function Navbar() {
               ) : (
                 <>
                   <Popover.Heading className="text-foreground">
-                    {t("disconnected")}
+                    <Chip
+                      color="default"
+                      variant="primary"
+                      className="text-foreground"
+                    >
+                      {t("disconnected")}
+                    </Chip>
                   </Popover.Heading>
                   <div className="flex flex-col mt-2 text-sm text-muted">
                     You are not connected to any broker

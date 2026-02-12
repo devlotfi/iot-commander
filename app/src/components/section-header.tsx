@@ -45,6 +45,7 @@ export default function SectionHeader({
       </div>
       <div
         className={cn("flex font-bold text-[20pt]", classNameLabel)}
+        style={{ fontFamily: "Doto" }}
         {...labelProps}
       >
         {children}

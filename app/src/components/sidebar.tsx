@@ -178,7 +178,7 @@ export default function Sidebar() {
       )}
     >
       <div className="flex flex-col flex-1 justify-center items-center gap-[0.5rem] p-[0.7rem]">
-        <SidebarButton path="/" icon={"computer"}>
+        <SidebarButton path="/" icon={"cpu"}>
           {t("devices")}
         </SidebarButton>
         <SidebarButton path="/connections" icon={"satellite-dish"}>

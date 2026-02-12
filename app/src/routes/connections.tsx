@@ -10,7 +10,7 @@ import { useTranslation } from "react-i18next";
 import SectionHeader from "../components/section-header";
 import { Plus } from "lucide-react";
 import AddConnectionModal from "../components/connection/add-connection-modal";
-import Connection from "../components/connection/connection";
+import ConnectionComponent from "../components/connection/connection-component";
 
 export const Route = createFileRoute("/connections")({
   component: RouteComponent,
@@ -58,10 +58,10 @@ function RouteComponent() {
           ) : data && data.length ? (
             <div className="flex flex-col flex-1 mt-[0.5rem] gap-[1rem] pl-[1rem] pr-[2.5rem] pb-[5rem]">
               {data.map((connection) => (
-                <Connection
+                <ConnectionComponent
                   key={connection.id}
                   connection={connection}
-                ></Connection>
+                ></ConnectionComponent>
               ))}
             </div>
           ) : (

@@ -52,7 +52,7 @@ function RouteComponent() {
       <div className="flex flex-col w-full max-w-screen-sm pt-[2rem]">
         <SectionHeader icon="settings">Settings</SectionHeader>
 
-        <Card className="bg-[color-mix(in_srgb,var(--surface),transparent_80%)] border shadow-none">
+        <Card>
           <Card.Content className="flex flex-col gap-[0.7rem]">
             <Select
               value={themeOption}

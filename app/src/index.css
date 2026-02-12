@@ -71,6 +71,46 @@
     @apply shadow-none border border-border;
     background: color-mix(in srgb, var(--surface), transparent 80%) !important;
   }
+
+  .card {
+    @apply border border-border;
+    background: color-mix(in srgb, var(--surface), transparent 80%) !important;
+  }
+
+  .accordion {
+    @apply border border-border;
+    background: color-mix(in srgb, var(--surface), transparent 80%) !important;
+  }
+
+  .surface {
+    @apply rounded-2xl;
+  }
+  .surface--default {
+    @apply border border-border;
+    background: color-mix(in srgb, var(--surface), transparent 80%) !important;
+  }
+
+  .tabs {
+    @apply gap-[1rem];
+  }
+  .tabs__list {
+    @apply border border-border;
+    background: color-mix(in srgb, var(--surface), transparent 80%) !important;
+  }
+  .tabs__tab {
+    @apply p-[1.2rem];
+  }
+  .tabs__indicator {
+    @apply text-foreground rounded-2xl;
+    background: color-mix(in srgb, var(--accent), transparent 80%) !important;
+  }
+  .tabs__panel {
+    @apply px-0 !py-[0rem];
+  }
+
+  .skeleton {
+    background: color-mix(in srgb, var(--surface), transparent 80%) !important;
+  }
 }
 
 @layer base {
@@ -85,6 +125,12 @@
 
     --surface: #ffffff;
     --surface-foreground: #536077;
+
+    --success: #1dbe63;
+    --success-foreground: var(--snow);
+
+    --danger: #d42326;
+    --danger-foreground: var(--snow);
 
     --accent: #e16349;
 
@@ -113,6 +159,12 @@
 
     --surface: #434c55;
     --surface-foreground: var(--foreground);
+
+    --success: #1dbe63;
+    --success-foreground: var(--snow);
+
+    --danger: #d42326;
+    --danger-foreground: var(--snow);
 
     --default: #343940;
     --default-foreground: var(--foreground);

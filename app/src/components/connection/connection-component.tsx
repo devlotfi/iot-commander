@@ -14,7 +14,7 @@ interface ConnectionProps {
   connection: ConnectionDocType;
 }
 
-export default function Connection({ connection }: ConnectionProps) {
+export default function ConnectionComponent({ connection }: ConnectionProps) {
   const { t } = useTranslation();
   const { connectionData, mqttConnect, mqttDisconnect } =
     useContext(MqttContext);
@@ -36,7 +36,7 @@ export default function Connection({ connection }: ConnectionProps) {
     });
 
   return (
-    <Card className="flex-row relative overflow-visible bg-[color-mix(in_srgb,var(--surface),transparent_80%)] border border-border">
+    <Card className="flex-row relative overflow-visible">
       <Card.Content>
         <DeleteConnectionModal
           state={deleteState}
