@@ -1,10 +1,15 @@
-import { Button, Card, Surface, useOverlayState } from "@heroui/react";
-import { ResponseStatus, type Action } from "../../types/action-call";
-import { useContext } from "react";
+import { Button, Card, Surface, toast, useOverlayState } from "@heroui/react";
+import {
+  ResponseStatus,
+  type Action,
+  type ActionData,
+  type ActionErrorResponse,
+} from "../../types/action-call";
+import { useContext, useState } from "react";
 import { MqttContext } from "../../context/mqtt-context";
 import { useRouteContext } from "@tanstack/react-router";
 import VariableRow from "./variable-row";
-import { Play } from "lucide-react";
+import { Check, InfoIcon, Play } from "lucide-react";
 import { useMutation } from "@tanstack/react-query";
 import { mqttRequest } from "../../utils/mqtt-request";
 import EmptyActionRow from "./empty-action-row";
@@ -18,16 +23,16 @@ export default function ManualFetchAction({ action }: ManualFetchActionProps) {
   const { connectionData } = useContext(MqttContext);
   const { device } = useRouteContext({ from: "/device" });
   const state = useOverlayState();
+  const [results, setResults] = useState<ActionData>({});
   if (!connectionData || !device) throw new Error("Missing data");
-
   const { mutate, isPending } = useMutation({
-    mutationFn: async () => {
+    mutationFn: async (parameters: ActionData) => {
       const res = await mqttRequest({
         client: connectionData.client,
         requestTopic: device.requestTopic,
         responseTopic: device.responseTopic,
         action: action.name,
-        parameters: {},
+        parameters,
       });
 
       if (res.status === ResponseStatus.ERROR) throw new Error(res.code);
@@ -35,12 +40,32 @@ export default function ManualFetchAction({ action }: ManualFetchActionProps) {
 
       return res.results;
     },
+    onSuccess(data) {
+      setResults(data);
+      toast("Action successful", {
+        indicator: <Check />,
+        variant: "success",
+      });
+    },
+    onError(error: ActionErrorResponse) {
+      toast(`Error: ${error.code}`, {
+        indicator: <InfoIcon />,
+        variant: "danger",
+      });
+    },
   });
 
   return (
     <>
       {action.parameters.length ? (
-        <ActionParamsModal state={state} action={action}></ActionParamsModal>
+        <ActionParamsModal
+          state={state}
+          action={action}
+          onSubmit={(actionData) => {
+            mutate(actionData);
+            state.close();
+          }}
+        ></ActionParamsModal>
       ) : null}
 
       <Card className="p-[0.5rem] md:p-[1rem]">
@@ -62,7 +87,7 @@ export default function ManualFetchAction({ action }: ManualFetchActionProps) {
                 if (action.parameters.length) {
                   state.open();
                 } else {
-                  mutate();
+                  mutate({});
                 }
               }}
             >
@@ -75,10 +100,10 @@ export default function ManualFetchAction({ action }: ManualFetchActionProps) {
           </div>
           <Surface className="flex flex-col gap-[0.5rem] p-[0.5rem]">
             {action.parameters.length ? (
-              action.parameters.map((result, index) => (
+              action.parameters.map((parameter, index) => (
                 <VariableRow
-                  key={`${result.name}-${index}`}
-                  variable={result}
+                  key={`${parameter.name}-${index}`}
+                  variable={parameter}
                 ></VariableRow>
               ))
             ) : (
@@ -93,7 +118,11 @@ export default function ManualFetchAction({ action }: ManualFetchActionProps) {
                 <VariableRow
                   key={`${result.name}-${index}`}
                   variable={result}
-                  value={"N/A"}
+                  value={
+                    results[result.name]
+                      ? JSON.stringify(results[result.name])
+                      : "N/A"
+                  }
                 ></VariableRow>
               ))
             ) : (

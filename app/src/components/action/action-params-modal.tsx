@@ -8,20 +8,16 @@ import {
   Switch,
   type UseOverlayStateReturn,
 } from "@heroui/react";
-import { Variable } from "lucide-react";
 import {
   ValueType,
   type Action,
   type ActionData,
+  type Variable,
 } from "../../types/action-call";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import ValidatedTextField from "../validated-text-field";
-
-interface ActionParamsModalProps {
-  state: UseOverlayStateReturn;
-  action: Action;
-}
+import { DynamicIcon } from "lucide-react/dynamic";
 
 function setupInitialValues(action: Action): ActionData {
   const actionData: ActionData = {};
@@ -29,13 +25,13 @@ function setupInitialValues(action: Action): ActionData {
   for (const parameter of action.parameters) {
     switch (parameter.type) {
       case ValueType.INT:
-        actionData[parameter.name] = 0;
+        actionData[parameter.name] = "";
         break;
       case ValueType.FLOAT:
-        actionData[parameter.name] = 0;
+        actionData[parameter.name] = "";
         break;
       case ValueType.DOUBLE:
-        actionData[parameter.name] = 0;
+        actionData[parameter.name] = "";
         break;
       case ValueType.BOOL:
         actionData[parameter.name] = false;
@@ -87,15 +83,31 @@ function setupYupSchema(action: Action) {
   return yup.object(yupObj);
 }
 
+function FieldLabel({ parameter }: { parameter: Variable }) {
+  return (
+    <span>
+      <span className="mr-[0.3rem] text-accent">{parameter.type}</span>
+      <span>{parameter.name}</span>
+    </span>
+  );
+}
+
+interface ActionParamsModalProps {
+  state: UseOverlayStateReturn;
+  action: Action;
+  onSubmit: (actionData: ActionData) => void;
+}
+
 export default function ActionParamsModal({
   state,
   action,
+  onSubmit,
 }: ActionParamsModalProps) {
   const formik = useFormik({
     initialValues: setupInitialValues(action),
     validationSchema: setupYupSchema(action),
     onSubmit(values) {
-      console.log(values);
+      onSubmit(values);
     },
   });
 
@@ -109,11 +121,12 @@ export default function ActionParamsModal({
               formik={formik}
               name={parameter.name}
               textFieldProps={{ isRequired: true }}
-              labelProps={{ children: parameter.name }}
+              labelProps={{
+                children: <FieldLabel parameter={parameter}></FieldLabel>,
+              }}
               inputProps={{
                 type: "number",
-                onChange: (e) =>
-                  formik.setFieldValue(parameter.name, Number(e.target.value)),
+                step: "1",
               }}
             ></ValidatedTextField>
           );
@@ -124,11 +137,12 @@ export default function ActionParamsModal({
               formik={formik}
               name={parameter.name}
               textFieldProps={{ isRequired: true }}
-              labelProps={{ children: parameter.name }}
+              labelProps={{
+                children: <FieldLabel parameter={parameter}></FieldLabel>,
+              }}
               inputProps={{
                 type: "number",
-                onChange: (e) =>
-                  formik.setFieldValue(parameter.name, Number(e.target.value)),
+                step: "0.01",
               }}
             ></ValidatedTextField>
           );
@@ -139,11 +153,12 @@ export default function ActionParamsModal({
               formik={formik}
               name={parameter.name}
               textFieldProps={{ isRequired: true }}
-              labelProps={{ children: parameter.name }}
+              labelProps={{
+                children: <FieldLabel parameter={parameter}></FieldLabel>,
+              }}
               inputProps={{
                 type: "number",
-                onChange: (e) =>
-                  formik.setFieldValue(parameter.name, Number(e.target.value)),
+                step: "0.01",
               }}
             ></ValidatedTextField>
           );
@@ -157,7 +172,9 @@ export default function ActionParamsModal({
               <Switch.Control>
                 <Switch.Thumb />
               </Switch.Control>
-              <Label className="text-sm">Enable notifications</Label>
+              <Label className="text-sm">
+                <FieldLabel parameter={parameter}></FieldLabel>
+              </Label>
             </Switch>
           );
         case ValueType.STRING:
@@ -167,7 +184,9 @@ export default function ActionParamsModal({
               formik={formik}
               name={parameter.name}
               textFieldProps={{ isRequired: true }}
-              labelProps={{ children: parameter.name }}
+              labelProps={{
+                children: <FieldLabel parameter={parameter}></FieldLabel>,
+              }}
             ></ValidatedTextField>
           );
         case ValueType.ENUM:
@@ -175,12 +194,15 @@ export default function ActionParamsModal({
             return (
               <Select
                 key={`${parameter.name}-${index}`}
+                isInvalid={formik.errors[parameter.name] !== undefined}
                 value={formik.values[parameter.name] as string}
                 onChange={(value) =>
                   formik.setFieldValue(parameter.name, value?.toString())
                 }
               >
-                <Label>{parameter.name}</Label>
+                <Label>
+                  <FieldLabel parameter={parameter}></FieldLabel>
+                </Label>
                 <Select.Trigger>
                   <Select.Value />
                   <Select.Indicator />
@@ -199,6 +221,12 @@ export default function ActionParamsModal({
                     ))}
                   </ListBox>
                 </Select.Popover>
+
+                {formik.errors[parameter.name] ? (
+                  <div className="ml-[0.3rem] text-danger text-[9pt]">
+                    {formik.errors[parameter.name]}
+                  </div>
+                ) : null}
               </Select>
             );
           }
@@ -217,7 +245,7 @@ export default function ActionParamsModal({
           <Modal.CloseTrigger />
           <Modal.Header>
             <Modal.Icon className="bg-accent-soft text-accent-soft-foreground">
-              <Variable className="size-5" />
+              <DynamicIcon name="variable" className="size-5" />
             </Modal.Icon>
             <Modal.Heading>Parameters</Modal.Heading>
           </Modal.Header>

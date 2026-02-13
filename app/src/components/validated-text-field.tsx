@@ -38,6 +38,7 @@ export default function ValidatedTextField({
       variant="secondary"
       fullWidth
       name={name}
+      isInvalid={formik.errors[name] !== undefined && formik.touched[name]}
       className={cn("flex flex-col", className)}
       {...textFieldProps}
     >
@@ -54,10 +55,7 @@ export default function ValidatedTextField({
         />
         {suffix ? <InputGroup.Suffix>{suffix}</InputGroup.Suffix> : null}
       </InputGroup>
-
-      {formik.errors[name] && formik.touched[name] && (
-        <FieldError {...fieldErrorProps}>{formik.errors[name]}</FieldError>
-      )}
+      <FieldError {...fieldErrorProps}>{formik.errors[name]}</FieldError>
     </TextField>
   );
 }

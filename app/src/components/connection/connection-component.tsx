@@ -89,7 +89,8 @@ export default function ConnectionComponent({ connection }: ConnectionProps) {
             </Button>
             <Button
               isIconOnly
-              variant="danger-soft"
+              variant="outline"
+              className="bg-[color-mix(in_srgb,var(--surface),transparent_80%)] text-danger"
               onPress={() => deleteState.open()}
             >
               <Trash></Trash>

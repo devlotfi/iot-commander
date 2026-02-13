@@ -58,12 +58,20 @@
     );
   }
 
-  .toast {
-    @apply border border-border shadow-md;
+  .toast--danger {
+    @apply border border-danger shadow-md;
     background: linear-gradient(
       to top,
-      color-mix(in srgb, var(--accent), var(--background) 95%),
-      color-mix(in srgb, var(--surface), var(--background) 95%)
+      color-mix(in srgb, var(--danger), var(--surface) 85%),
+      color-mix(in srgb, var(--surface), var(--background) 70%)
+    );
+  }
+  .toast--success {
+    @apply border border-success shadow-md;
+    background: linear-gradient(
+      to top,
+      color-mix(in srgb, var(--success), var(--surface) 85%),
+      color-mix(in srgb, var(--surface), var(--background) 70%)
     );
   }
 

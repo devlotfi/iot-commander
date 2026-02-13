@@ -50,11 +50,7 @@ export default function DeleteConnectionModal({
             <div className="flex">{t("deleteConfirmation")}</div>
           </Modal.Body>
           <Modal.Footer>
-            <Button
-              variant="secondary"
-              className="border border-divider"
-              onPress={() => state.close()}
-            >
+            <Button variant="outline" onPress={() => state.close()}>
               {t("cancel")}
             </Button>
             <Button
