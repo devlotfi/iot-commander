@@ -46,7 +46,7 @@ function DeviceSchema() {
   const manualActions = data.filter((action) => !action.autoFetch);
 
   return (
-    <Tabs className="mt-[1rem]">
+    <Tabs className="mt-[3rem]">
       <Tabs.ListContainer>
         <Tabs.List aria-label="Options">
           <Tabs.Tab id="auto-fetch">

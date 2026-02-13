@@ -1,6 +1,6 @@
-import { Card } from "@heroui/react";
+import { Card, Chip } from "@heroui/react";
 import type { Device } from "../types/device";
-import { Cpu } from "lucide-react";
+import { Globe } from "lucide-react";
 import DataRow from "./data-row";
 import { useNavigate, useRouter } from "@tanstack/react-router";
 
@@ -24,13 +24,13 @@ export default function DeviceComponent({ device }: DeviceComponentProps) {
         navigate({ to: "/device" });
       }}
     >
-      <Cpu
-        aria-label="Dollar sign icon"
-        className="text-primary size-6"
-        role="img"
-      />
-      <Card.Header>
+      <Card.Header className="flex-row justify-between items-center">
         <Card.Title>{device.name}</Card.Title>
+
+        <Chip color="success">
+          <Chip.Label>Online</Chip.Label>
+          <Globe className="size-[1rem]"></Globe>
+        </Chip>
       </Card.Header>
       <Card.Content>
         <DataRow name="ID" value={device.id} fold></DataRow>
