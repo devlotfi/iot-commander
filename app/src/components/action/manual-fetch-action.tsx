@@ -9,17 +9,26 @@ import { useContext, useState } from "react";
 import { MqttContext } from "../../context/mqtt-context";
 import { useRouteContext } from "@tanstack/react-router";
 import VariableRow from "./variable-row";
-import { Check, InfoIcon, Play } from "lucide-react";
+import {
+  Braces,
+  Check,
+  InfoIcon,
+  Play,
+  SquareFunction,
+  Variable,
+} from "lucide-react";
 import { useMutation } from "@tanstack/react-query";
 import { mqttRequest } from "../../utils/mqtt-request";
 import EmptyActionRow from "./empty-action-row";
 import ActionParamsModal from "./action-params-modal";
+import { useTranslation } from "react-i18next";
 
 interface ManualFetchActionProps {
   action: Action;
 }
 
 export default function ManualFetchAction({ action }: ManualFetchActionProps) {
+  const { t } = useTranslation();
   const { connectionData } = useContext(MqttContext);
   const { device } = useRouteContext({ from: "/device" });
   const state = useOverlayState();
@@ -42,13 +51,13 @@ export default function ManualFetchAction({ action }: ManualFetchActionProps) {
     },
     onSuccess(data) {
       setResults(data);
-      toast("Action successful", {
+      toast(t("actionSuccess"), {
         indicator: <Check />,
         variant: "success",
       });
     },
     onError(error: ActionErrorResponse) {
-      toast(`Error: ${error.code}`, {
+      toast(`${t("error")}: ${error.code}`, {
         indicator: <InfoIcon />,
         variant: "danger",
       });
@@ -71,8 +80,9 @@ export default function ManualFetchAction({ action }: ManualFetchActionProps) {
       <Card className="p-[0.5rem] md:p-[1rem]">
         <Card.Content>
           <div className="flex items-center justify-between">
-            <div className="flex text-[13pt] font-bold pb-[1rem]">
-              {action.name}
+            <div className="flex items-center gap-[0.5rem] text-[13pt] font-bold pl-[0.5rem] pb-[0.5rem]">
+              <SquareFunction className="size-[13pt]"></SquareFunction>
+              <div className="flex">{action.name}</div>
             </div>
 
             <Button
@@ -95,8 +105,9 @@ export default function ManualFetchAction({ action }: ManualFetchActionProps) {
             </Button>
           </div>
 
-          <div className="flex text-[12pt] font-medium opacity-70">
-            Parameters
+          <div className="flex items-center gap-[0.5rem] text-[11pt] pl-[0.5rem] opacity-70">
+            <Variable className="size-[13pt]"></Variable>
+            <div className="flex">{t("parameters")}</div>
           </div>
           <Surface className="flex flex-col gap-[0.5rem] p-[0.5rem]">
             {action.parameters.length ? (
@@ -111,7 +122,10 @@ export default function ManualFetchAction({ action }: ManualFetchActionProps) {
             )}
           </Surface>
 
-          <div className="flex text-[12pt] font-medium opacity-70">Results</div>
+          <div className="flex items-center gap-[0.5rem] text-[11pt] pl-[0.5rem] opacity-70">
+            <Braces className="size-[13pt]"></Braces>
+            <div className="flex">{t("results")}</div>
+          </div>
           <Surface className="flex flex-col gap-[0.5rem] p-[0.5rem]">
             {action.results.length ? (
               action.results.map((result, index) => (

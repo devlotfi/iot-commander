@@ -1,27 +1,20 @@
 import * as React from "react";
-import {
-  Outlet,
-  createRootRouteWithContext,
-  useRouterState,
-} from "@tanstack/react-router";
+import { Outlet, createRootRouteWithContext } from "@tanstack/react-router";
 import Navbar from "../components/navbar";
 import Sidebar from "../components/sidebar";
 import BottomTabs from "../components/bottom-tabs";
 import { ScrollShadow } from "@heroui/react";
 import type { RouterContext } from "../types/router-context";
+import RouteLoading from "../components/route-loading";
 
 export const Route = createRootRouteWithContext<RouterContext>()({
   component: RootComponent,
 });
 
 function RootComponent() {
-  const { isLoading } = useRouterState();
-
   return (
     <React.Fragment>
-      {isLoading ? (
-        <div className="fixed w-dvw z-50 bg-accent h-[0.5rem]" />
-      ) : null}
+      <RouteLoading></RouteLoading>
 
       <div className="flex flex-1">
         <Sidebar></Sidebar>

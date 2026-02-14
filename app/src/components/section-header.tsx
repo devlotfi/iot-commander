@@ -44,8 +44,10 @@ export default function SectionHeader({
         ></DynamicIcon>
       </div>
       <div
-        className={cn("flex font-bold text-[20pt] uppercase", classNameLabel)}
-        style={{ fontFamily: "Doto" }}
+        className={cn(
+          "flex font-bold text-[20pt] uppercase doto-font",
+          classNameLabel,
+        )}
         {...labelProps}
       >
         {children}

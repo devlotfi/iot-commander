@@ -32,10 +32,7 @@ export default function Navbar() {
           />
         </Button>
         <img src={LogoSVG} alt="logo" className="h-[3rem] md:h-[3.3rem]" />
-        <div
-          className="flex font-bold text-[17pt]"
-          style={{ fontFamily: "Doto" }}
-        >
+        <div className="flex font-bold text-[17pt] doto-font">
           IOT COMMANDER
         </div>
       </div>
@@ -46,6 +43,7 @@ export default function Navbar() {
             isIconOnly
             variant="outline"
             className="size-[2.5rem] text-foreground bg-[color-mix(in_srgb,var(--surface),transparent_60%)]"
+            onPress={() => beforeInstallPromptEvent.prompt()}
           >
             <Download className="size-[1.4rem]"></Download>
           </Button>

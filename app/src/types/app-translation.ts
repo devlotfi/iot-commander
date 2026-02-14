@@ -14,8 +14,6 @@ export interface AppTranslation {
   editDevice: string;
   deleteDevice: string;
   name: string;
-  macAddress: string;
-  ipAddressIOptional: string;
 
   addConnection: string;
   editConnection: string;
@@ -42,19 +40,25 @@ export interface AppTranslation {
   noContent: string;
   connectionError: string;
   noResponse: string;
-  timeoutMessage: string;
-  wolSent: string;
   install: string;
 
   notFound: string;
   landingPage: string;
 
-  noDevices: {
-    title: string;
-    subTitle: string;
-  };
   noConnections: {
     title: string;
     subTitle: string;
   };
+
+  connectToMqtt: string;
+  autoFetch: string;
+  manual: string;
+  empty: string;
+  parameters: string;
+  results: string;
+  actionSuccess: string;
+  send: string;
+  online: string;
+  searching: string;
+  notConnected: string;
 }

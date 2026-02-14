@@ -81,18 +81,6 @@ function DeviceList() {
                 device={device}
               ></DeviceComponent>
             ))}
-            {devices.map((device, index) => (
-              <DeviceComponent
-                key={`${device.id}-${index}`}
-                device={device}
-              ></DeviceComponent>
-            ))}
-            {devices.map((device, index) => (
-              <DeviceComponent
-                key={`${device.id}-${index}`}
-                device={device}
-              ></DeviceComponent>
-            ))}
           </div>
         ) : (
           <div className="flex flex-1 text-center justify-center items-center flex-col gap-[1rem] px-[0.5rem]">
@@ -101,11 +89,8 @@ function DeviceList() {
               alt="device"
               className="h-[12rem] md:h-[15rem]"
             />
-            <div
-              className="flex text-[18pt] font-bold uppercase"
-              style={{ fontFamily: "Doto" }}
-            >
-              Searching...
+            <div className="flex text-[18pt] font-bold uppercase doto-font">
+              {t("searching")}...
             </div>
           </div>
         )}
@@ -129,14 +114,11 @@ function RouteComponent() {
               alt="device"
               className="h-[12rem] md:h-[12rem]"
             />
-            <div
-              className="flex text-[18pt] font-bold uppercase"
-              style={{ fontFamily: "Doto" }}
-            >
+            <div className="flex text-[18pt] font-bold uppercase doto-font">
               {t("disconnected")}
             </div>
             <div className="flex text-[13pt] opacity-85">
-              {t("noConnections.subTitle")}
+              {t("connectToMqtt")}
             </div>
           </Card.Content>
 

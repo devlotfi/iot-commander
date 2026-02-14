@@ -16,8 +16,6 @@ export const EN: AppTranslation = {
   editDevice: "Edit device",
   deleteDevice: "Delete device",
   name: "Name",
-  macAddress: "MAC address",
-  ipAddressIOptional: "IP address (optional: used for ping)",
 
   addConnection: "Add connection",
   editConnection: "Edit connection",
@@ -45,19 +43,25 @@ export const EN: AppTranslation = {
   connectionError:
     "An error occurred during the connection. Please check your credentials and network.",
   noResponse: "No response",
-  timeoutMessage: "The timeout has expired and no response was received",
-  wolSent: "The WOL (Wake-on-LAN) was sent",
   install: "Install",
 
   notFound: "Not found",
   landingPage: "Home page",
 
-  noDevices: {
-    title: "No devices",
-    subTitle: "Start by adding devices",
-  },
   noConnections: {
     title: "No connections",
     subTitle: "Start by adding MQTT broker connections",
   },
+
+  connectToMqtt: "Start by connecting to an MQTT broker",
+  autoFetch: "Auto-Fetch",
+  manual: "Manual",
+  empty: "Empty",
+  parameters: "Parameters",
+  results: "Results",
+  actionSuccess: "Action successful",
+  send: "Send",
+  online: "Online",
+  searching: "Searching",
+  notConnected: "You are not connected to any broker"
 };

@@ -18,6 +18,7 @@ import { useFormik } from "formik";
 import * as yup from "yup";
 import ValidatedTextField from "../validated-text-field";
 import { DynamicIcon } from "lucide-react/dynamic";
+import { useTranslation } from "react-i18next";
 
 function setupInitialValues(action: Action): ActionData {
   const actionData: ActionData = {};
@@ -103,6 +104,8 @@ export default function ActionParamsModal({
   action,
   onSubmit,
 }: ActionParamsModalProps) {
+  const { t } = useTranslation();
+
   const formik = useFormik({
     initialValues: setupInitialValues(action),
     validationSchema: setupYupSchema(action),
@@ -247,7 +250,7 @@ export default function ActionParamsModal({
             <Modal.Icon className="bg-accent-soft text-accent-soft-foreground">
               <DynamicIcon name="variable" className="size-5" />
             </Modal.Icon>
-            <Modal.Heading>Parameters</Modal.Heading>
+            <Modal.Heading>{t("parameters")}</Modal.Heading>
           </Modal.Header>
           <Modal.Body className="p-[0.3rem]">
             <Form
@@ -257,7 +260,7 @@ export default function ActionParamsModal({
               {renderFields()}
 
               <Button fullWidth type="submit" className="mt-[1rem]">
-                Request
+                {t("send")}
               </Button>
             </Form>
           </Modal.Body>

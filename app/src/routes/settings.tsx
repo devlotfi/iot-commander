@@ -50,7 +50,7 @@ function RouteComponent() {
   return (
     <div className="flex flex-1 flex-col items-center p-[1rem]">
       <div className="flex flex-col w-full max-w-screen-sm pt-[2rem]">
-        <SectionHeader icon="settings">Settings</SectionHeader>
+        <SectionHeader icon="settings">{t("settings")}</SectionHeader>
 
         <Card>
           <Card.Content className="flex flex-col gap-[0.7rem]">
@@ -58,7 +58,7 @@ function RouteComponent() {
               value={themeOption}
               onChange={(value) => setTheme(value?.toString() as ThemeOptions)}
             >
-              <Label>Theme</Label>
+              <Label>{t("theme")}</Label>
               <Select.Trigger>
                 <Select.Value />
                 <Select.Indicator />

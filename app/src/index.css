@@ -15,6 +15,10 @@
   src: url("./assets/Doto.ttf");
 }
 
+.doto-font {
+  font-family: Doto, Rubik;
+}
+
 * {
   font-family: "Rubik", sans-serif;
   font-optical-sizing: auto;
@@ -147,7 +151,7 @@
 
     --field-background: var(--background);
     --field-foreground: var(--foreground);
-    --field-placeholder: color-mix(in_srgb, var(--muted), transparent_30%);
+    --field-placeholder: color-mix(in srgb, var(--muted), transparent 30%);
     --field-border: var(--border);
 
     --surface-shadow: 0 0 0 0 transparent inset;
@@ -187,11 +191,27 @@
 
     --field-background: var(--surface);
     --field-foreground: var(--foreground);
-    --field-placeholder: color-mix(in_srgb, var(--muted), transparent_30%);
+    --field-placeholder: color-mix(in srgb, var(--muted), transparent 30%);
     --field-border: var(--border);
 
     --surface-shadow: 0 0 0 0 transparent inset;
     --overlay-shadow: 0 0 0 0 transparent inset;
     --field-shadow: 0 0 0 0 transparent inset;
   }
+}
+
+@keyframes loading-slide {
+  0% {
+    transform: translateX(-100%);
+  }
+  50% {
+    transform: translateX(150%);
+  }
+  100% {
+    transform: translateX(300%);
+  }
+}
+
+.animate-loading {
+  animation: loading-slide 1.2s infinite ease-in-out;
 }

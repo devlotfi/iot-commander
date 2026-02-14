@@ -7,12 +7,15 @@ import { MqttContext } from "../../context/mqtt-context";
 import { useRouteContext } from "@tanstack/react-router";
 import VariableRow from "./variable-row";
 import EmptyActionRow from "./empty-action-row";
+import { Braces, SquareFunction } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 interface AutoFetchActionProps {
   action: Action;
 }
 
 export default function AutoFetchAction({ action }: AutoFetchActionProps) {
+  const { t } = useTranslation();
   const { connectionData } = useContext(MqttContext);
   const { device } = useRouteContext({ from: "/device" });
   if (!connectionData || !device) throw new Error("Missing data");
@@ -50,9 +53,15 @@ export default function AutoFetchAction({ action }: AutoFetchActionProps) {
   return (
     <Card className="p-[0.5rem] md:p-[1rem]">
       <Card.Content>
-        <div className="flex text-[13pt] font-bold">{action.name}</div>
+        <div className="flex items-center gap-[0.5rem] text-[13pt] font-bold pl-[0.5rem] pb-[0.5rem]">
+          <SquareFunction className="size-[13pt]"></SquareFunction>
+          <div className="flex">{action.name}</div>
+        </div>
 
-        <div className="flex text-[12pt] font-medium opacity-70">Results</div>
+        <div className="flex items-center gap-[0.5rem] text-[11pt] pl-[0.5rem] opacity-70">
+          <Braces className="size-[13pt]"></Braces>
+          <div className="flex">{t("results")}</div>
+        </div>
         <Surface className="flex flex-col gap-[0.5rem] p-[0.5rem]">
           {action.results.length ? (
             action.results.map((result, index) => (
