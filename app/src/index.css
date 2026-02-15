@@ -27,9 +27,6 @@
       inset;
   }
 
-  .toast {
-    @apply bg-overlay;
-  }
   .modal__backdrop {
     @apply bg-modal;
   }
@@ -81,6 +78,9 @@
       inset;
   }
 
+  .toast {
+    @apply bg-overlay;
+  }
   .toast--danger {
     @apply border border-danger shadow-md;
     background: linear-gradient(
@@ -88,7 +88,7 @@
       color-mix(in srgb, var(--danger), var(--surface) 85%),
       color-mix(in srgb, var(--surface), var(--background) 70%)
     );
-    box-shadow: color-mix(in srgb, var(--danger), transparent 50%) 0px -3px 0px
+    box-shadow: color-mix(in srgb, var(--danger), transparent 50%) 0px -5px 0px
       inset;
   }
   .toast--success {
@@ -98,7 +98,7 @@
       color-mix(in srgb, var(--success), var(--surface) 85%),
       color-mix(in srgb, var(--surface), var(--background) 70%)
     );
-    box-shadow: color-mix(in srgb, var(--success), transparent 80%) 0px -3px 0px
+    box-shadow: color-mix(in srgb, var(--success), transparent 80%) 0px -5px 0px
       inset;
   }
 

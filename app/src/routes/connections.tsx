@@ -1,4 +1,4 @@
-import { Button, useOverlayState } from "@heroui/react";
+import { Button, Card, useOverlayState } from "@heroui/react";
 import { useQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
 import { useContext } from "react";
@@ -65,25 +65,32 @@ function RouteComponent() {
               ))}
             </div>
           ) : (
-            <div className="flex flex-1 text-center justify-center items-center flex-col gap-[1rem] px-[0.5rem]">
-              <img
-                src={EmptySVG}
-                alt="device"
-                className="h-[12rem] md:h-[15rem]"
-              />
-              <div className="flex text-[18pt] font-bold">
-                {t("noConnections.title")}
-              </div>
-              <div className="flex text-[13pt] opacity-70">
-                {t("noConnections.subTitle")}
-              </div>
-              <Button
-                variant="primary"
-                onPress={() => addConnectionModalState.open()}
-              >
-                <Plus></Plus>
-                {t("addConnection")}
-              </Button>
+            <div className="flex flex-1 justify-center items-center px-[1rem]">
+              <Card className="max-w-md w-full">
+                <Card.Content className="text-center items-center flex-col gap-[1rem] px-[0.5rem]">
+                  <img src={EmptySVG} alt="device" className="h-[10rem]" />
+                  <div className="flex text-[18pt] font-bold uppercase">
+                    {t("noConnections.title")}
+                  </div>
+                  <div className="flex text-[13pt] opacity-85">
+                    {t("noConnections.subTitle")}
+                  </div>
+                </Card.Content>
+
+                <Card.Footer className="justify-center py-[0.5rem]">
+                  <Button
+                    variant="primary"
+                    style={{
+                      boxShadow:
+                        "color-mix(in srgb, var(--accent), transparent 50%) 0 0 2rem 0",
+                    }}
+                    onPress={() => addConnectionModalState.open()}
+                  >
+                    <Plus></Plus>
+                    {t("addConnection")}
+                  </Button>
+                </Card.Footer>
+              </Card>
             </div>
           )}
         </div>

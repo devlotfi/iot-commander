@@ -109,11 +109,7 @@ function RouteComponent() {
       <div className="flex flex-1 text-center justify-center items-center flex-col gap-[1rem] px-[1rem]">
         <Card className="max-w-md w-full">
           <Card.Content className="text-center items-center flex-col gap-[1rem] px-[0.5rem]">
-            <img
-              src={ServerSVG}
-              alt="device"
-              className="h-[12rem] md:h-[12rem]"
-            />
+            <img src={ServerSVG} alt="server" className="h-[12rem]" />
             <div className="flex text-[18pt] font-bold uppercase">
               {t("disconnected")}
             </div>
@@ -122,7 +118,7 @@ function RouteComponent() {
             </div>
           </Card.Content>
 
-          <Card.Footer className="justify-center">
+          <Card.Footer className="justify-center py-[0.5rem]">
             <Button
               variant="primary"
               style={{
