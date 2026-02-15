@@ -9,39 +9,54 @@
 }
 
 @font-face {
-  font-family: "Doto";
+  font-family: "KodeMono";
   font-style: normal;
   font-display: block;
-  src: url("./assets/Doto.ttf");
-}
-
-.doto-font {
-  font-family: Doto, Rubik;
+  src: url("./assets/KodeMono.ttf");
 }
 
 * {
-  font-family: "Rubik", sans-serif;
+  font-family: "KodeMono", "Rubik", sans-serif;
   font-optical-sizing: auto;
   font-style: normal;
 }
 
 @layer components {
+  .button--outline {
+    box-shadow: color-mix(in srgb, var(--surface), transparent 80%) 0px -3px 0px
+      inset;
+  }
+
   .toast {
     @apply bg-overlay;
   }
-
+  .modal__backdrop {
+    @apply bg-modal;
+  }
   .modal__dialog {
     @apply border border-border;
     background: linear-gradient(
       to top,
-      color-mix(in srgb, var(--accent), var(--background) 90%),
-      color-mix(in srgb, var(--surface), var(--background) 95%)
+      color-mix(
+        in srgb,
+        color-mix(in srgb, var(--accent), var(--background) 90%),
+        transparent 40%
+      ),
+      color-mix(
+        in srgb,
+        color-mix(in srgb, var(--surface), var(--background) 95%),
+        transparent 40%
+      )
     );
+    box-shadow: color-mix(in srgb, var(--surface), transparent 80%) 0px -3px 0px
+      inset;
   }
 
   .input-group {
     @apply border border-border;
     background: color-mix(in srgb, var(--surface), transparent 80%) !important;
+    box-shadow: color-mix(in srgb, var(--surface), transparent 80%) 0px -3px 0px
+      inset;
   }
 
   .select__popover {
@@ -49,8 +64,10 @@
     background: linear-gradient(
       to top,
       color-mix(in srgb, var(--accent), var(--background) 95%),
-      color-mix(in srgb, var(--surface), var(--background) 95%)
+      color-mix(in srgb, var(--surface), var(--background) 80%)
     );
+    box-shadow: color-mix(in srgb, var(--surface), transparent 80%) 0px -3px 0px
+      inset;
   }
 
   .popover {
@@ -58,8 +75,10 @@
     background: linear-gradient(
       to top,
       color-mix(in srgb, var(--accent), var(--background) 95%),
-      color-mix(in srgb, var(--surface), var(--background) 95%)
+      color-mix(in srgb, var(--surface), var(--background) 70%)
     );
+    box-shadow: color-mix(in srgb, var(--surface), transparent 80%) 0px -3px 0px
+      inset;
   }
 
   .toast--danger {
@@ -69,6 +88,8 @@
       color-mix(in srgb, var(--danger), var(--surface) 85%),
       color-mix(in srgb, var(--surface), var(--background) 70%)
     );
+    box-shadow: color-mix(in srgb, var(--danger), transparent 50%) 0px -3px 0px
+      inset;
   }
   .toast--success {
     @apply border border-success shadow-md;
@@ -77,21 +98,22 @@
       color-mix(in srgb, var(--success), var(--surface) 85%),
       color-mix(in srgb, var(--surface), var(--background) 70%)
     );
+    box-shadow: color-mix(in srgb, var(--success), transparent 80%) 0px -3px 0px
+      inset;
   }
 
   .select__trigger {
     @apply shadow-none border border-border;
     background: color-mix(in srgb, var(--surface), transparent 80%) !important;
+    box-shadow: color-mix(in srgb, var(--surface), transparent 80%) 0px -3px 0px
+      inset;
   }
 
   .card {
     @apply border border-border;
     background: color-mix(in srgb, var(--surface), transparent 80%) !important;
-  }
-
-  .accordion {
-    @apply border border-border;
-    background: color-mix(in srgb, var(--surface), transparent 80%) !important;
+    box-shadow: color-mix(in srgb, var(--surface), transparent 80%) 0px -3px 0px
+      inset;
   }
 
   .surface {
@@ -100,6 +122,8 @@
   .surface--default {
     @apply border border-border;
     background: color-mix(in srgb, var(--surface), transparent 80%) !important;
+    box-shadow: color-mix(in srgb, var(--surface), transparent 80%) 0px -3px 0px
+      inset;
   }
 
   .tabs {
@@ -108,6 +132,8 @@
   .tabs__list {
     @apply border border-border;
     background: color-mix(in srgb, var(--surface), transparent 80%) !important;
+    box-shadow: color-mix(in srgb, var(--surface), transparent 80%) 0px -3px 0px
+      inset;
   }
   .tabs__tab {
     @apply p-[1.2rem];
@@ -115,6 +141,8 @@
   .tabs__indicator {
     @apply text-foreground rounded-2xl;
     background: color-mix(in srgb, var(--accent), transparent 80%) !important;
+    box-shadow: color-mix(in srgb, var(--accent), transparent 80%) 0px -3px 0px
+      inset;
   }
   .tabs__panel {
     @apply px-0 !py-[0rem];
@@ -214,4 +242,65 @@
 
 .animate-loading {
   animation: loading-slide 1.2s infinite ease-in-out;
+}
+
+@utility bg-modal {
+  background:
+    linear-gradient(
+      color-mix(in srgb, black, transparent 80%),
+      color-mix(in srgb, black, transparent 80%)
+    ),
+    linear-gradient(
+      to top,
+      color-mix(in srgb, var(--accent), transparent 90%),
+      transparent
+    ),
+    radial-gradient(
+      color-mix(in srgb, var(--surface), transparent 90%) 2px,
+      transparent 2px
+    ),
+    linear-gradient(
+      color-mix(in srgb, var(--surface), transparent 90%) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      to right,
+      color-mix(in srgb, var(--surface), transparent 90%) 1px,
+      transparent 1px
+    );
+
+  background-size:
+    100% 100%,
+    100% 100%,
+    2rem 2rem,
+    1rem 1rem,
+    1rem 1rem;
+}
+
+@utility bg-main {
+  background-image:
+    linear-gradient(
+      to top,
+      color-mix(in srgb, var(--accent), transparent 86%),
+      transparent
+    ),
+    radial-gradient(
+      color-mix(in srgb, var(--surface), transparent 90%) 2px,
+      transparent 2px
+    ),
+    linear-gradient(
+      color-mix(in srgb, var(--surface), transparent 90%) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      to right,
+      color-mix(in srgb, var(--surface), transparent 90%) 1px,
+      transparent 1px
+    );
+
+  background-size:
+    100% 100%,
+    2rem 2rem,
+    1rem 1rem,
+    1rem 1rem;
 }

@@ -19,6 +19,7 @@ import * as yup from "yup";
 import ValidatedTextField from "../validated-text-field";
 import { DynamicIcon } from "lucide-react/dynamic";
 import { useTranslation } from "react-i18next";
+import { Play } from "lucide-react";
 
 function setupInitialValues(action: Action): ActionData {
   const actionData: ActionData = {};
@@ -261,6 +262,8 @@ export default function ActionParamsModal({
 
               <Button fullWidth type="submit" className="mt-[1rem]">
                 {t("send")}
+
+                <Play></Play>
               </Button>
             </Form>
           </Modal.Body>

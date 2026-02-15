@@ -1,4 +1,4 @@
-import { Card, Skeleton, Surface } from "@heroui/react";
+import { Button, Card, Skeleton, Surface } from "@heroui/react";
 import { ResponseStatus, type Action } from "../../types/action-call";
 import { useQuery } from "@tanstack/react-query";
 import { mqttRequest } from "../../utils/mqtt-request";
@@ -7,7 +7,7 @@ import { MqttContext } from "../../context/mqtt-context";
 import { useRouteContext } from "@tanstack/react-router";
 import VariableRow from "./variable-row";
 import EmptyActionRow from "./empty-action-row";
-import { Braces, SquareFunction } from "lucide-react";
+import { Braces, RefreshCw, SquareFunction } from "lucide-react";
 import { useTranslation } from "react-i18next";
 
 interface AutoFetchActionProps {
@@ -20,7 +20,7 @@ export default function AutoFetchAction({ action }: AutoFetchActionProps) {
   const { device } = useRouteContext({ from: "/device" });
   if (!connectionData || !device) throw new Error("Missing data");
 
-  const { data, isLoading } = useQuery({
+  const { data, isLoading, refetch, isRefetching } = useQuery({
     queryKey: ["ACTION_AUTO_FETCH", action.name],
     queryFn: async () => {
       const res = await mqttRequest({
@@ -53,9 +53,21 @@ export default function AutoFetchAction({ action }: AutoFetchActionProps) {
   return (
     <Card className="p-[0.5rem] md:p-[1rem]">
       <Card.Content>
-        <div className="flex items-center gap-[0.5rem] text-[13pt] font-bold pl-[0.5rem] pb-[0.5rem]">
-          <SquareFunction className="size-[13pt]"></SquareFunction>
-          <div className="flex">{action.name}</div>
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-[0.5rem] text-[13pt] font-bold pl-[0.5rem] pb-[0.5rem]">
+            <SquareFunction className="size-[13pt]"></SquareFunction>
+            <div className="flex">{action.name}</div>
+          </div>
+
+          <Button
+            isIconOnly
+            variant="outline"
+            className="bg-[color-mix(in_srgb,var(--surface),transparent_80%)]"
+            isPending={isRefetching}
+            onPress={() => refetch()}
+          >
+            <RefreshCw></RefreshCw>
+          </Button>
         </div>
 
         <div className="flex items-center gap-[0.5rem] text-[11pt] pl-[0.5rem] opacity-70">

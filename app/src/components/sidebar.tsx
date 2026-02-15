@@ -35,7 +35,7 @@ function SidebarButton({
   return (
     <Tooltip delay={0} isDisabled={isLarge && sidebarOpen}>
       <Button
-        variant="ghost"
+        variant="outline"
         className={cn(
           "justify-between h-auto p-[0.4rem] border border-transparent",
           "transition-all duration-300",
@@ -108,7 +108,7 @@ function GithubButton({ className, ...props }: Omit<ButtonProps, "children">) {
         className="flex flex-1 justify-center items-center"
       >
         <Button
-          variant="ghost"
+          variant="outline"
           className={cn(
             "justify-between h-auto p-[0.4rem] py-[0.2rem] bg-[color-mix(in_srgb,var(--surface),transparent_80%)] border border-border",
             "transition-all duration-300",
@@ -171,26 +171,28 @@ export default function Sidebar() {
   const { sidebarOpen } = useContext(AppContext);
 
   return (
-    <div
-      className={cn(
-        "hidden relative md:flex flex-col min-w-[5rem] duration-500 transition-[width] bg-[color-mix(in_srgb,var(--surface),transparent_85%)] border-r",
-        sidebarOpen ? "lg:w-[16rem]" : "w-[5rem]",
-      )}
-    >
-      <div className="flex flex-col flex-1 justify-center items-center gap-[0.5rem] p-[0.7rem]">
-        <SidebarButton path="/" icon={"cpu"}>
-          {t("devices")}
-        </SidebarButton>
-        <SidebarButton path="/connections" icon={"satellite-dish"}>
-          {t("connections")}
-        </SidebarButton>
-        <SidebarButton path="/settings" icon={"settings"}>
-          {t("settings")}
-        </SidebarButton>
-      </div>
+    <div className="hidden md:flex p-[1rem]">
+      <div
+        className={cn(
+          "flex relative flex-col min-w-[5rem] duration-500 transition-[width] bg-[color-mix(in_srgb,var(--surface),transparent_85%)] border rounded-4xl",
+          sidebarOpen ? "lg:w-[16rem]" : "w-[5rem]",
+        )}
+      >
+        <div className="flex flex-col flex-1 justify-center items-center gap-[0.5rem] p-[0.7rem]">
+          <SidebarButton path="/" icon={"cpu"}>
+            {t("devices")}
+          </SidebarButton>
+          <SidebarButton path="/connections" icon={"satellite-dish"}>
+            {t("connections")}
+          </SidebarButton>
+          <SidebarButton path="/settings" icon={"settings"}>
+            {t("settings")}
+          </SidebarButton>
+        </div>
 
-      <div className="flex h-[5rem] p-[0.7rem] justify-center items-center w-full absolute bottom-0">
-        <GithubButton></GithubButton>
+        <div className="flex p-[0.7rem] justify-center items-center w-full absolute bottom-0">
+          <GithubButton></GithubButton>
+        </div>
       </div>
     </div>
   );

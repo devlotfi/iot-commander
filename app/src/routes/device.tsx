@@ -23,9 +23,7 @@ function EmptyList() {
   return (
     <div className="flex flex-col gap-[1rem] items-center py-[3rem]">
       <img src={EmptySVG} alt="empty" className="h-[10rem]" />
-      <div className="flex uppercase font-bold text-[20pt] doto-font">
-        {t("empty")}
-      </div>
+      <div className="flex uppercase font-bold text-[20pt]">{t("empty")}</div>
     </div>
   );
 }
@@ -122,7 +120,7 @@ function RouteComponent() {
             <div className="flex absolute h-[10rem] w-[15rem] rounded-full bg-accent blur-2xl opacity-20"></div>
           </div>
 
-          <div className="flex justify-center font-bold text-[20pt] z-10 doto-font">
+          <div className="flex justify-center font-bold text-[20pt] z-10">
             {device.name}
           </div>
         </div>

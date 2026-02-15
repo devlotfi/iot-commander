@@ -37,7 +37,7 @@ export default function DeleteConnectionModal({
       isOpen={state.isOpen}
       onOpenChange={state.setOpen}
     >
-      <Modal.Container>
+      <Modal.Container placement="center">
         <Modal.Dialog className="sm:max-w-[360px]">
           <Modal.CloseTrigger />
           <Modal.Header>

@@ -35,13 +35,7 @@ const queryClient = new QueryClient();
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
-    <div
-      className="flex flex-col md:flex-row min-h-dvh min-w-dvw max-h-dvh max-w-dvw overflow-hidden"
-      style={{
-        backgroundImage:
-          "linear-gradient(to top, color-mix(in srgb, var(--accent), transparent 86%), transparent)",
-      }}
-    >
+    <div className="flex flex-col md:flex-row min-h-dvh min-w-dvw max-h-dvh max-w-dvw overflow-hidden bg-main">
       <QueryClientProvider client={queryClient}>
         <Toast.Provider placement="top"></Toast.Provider>
         <PWAProvider>
