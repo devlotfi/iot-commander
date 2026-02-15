@@ -13,7 +13,7 @@ export function mqttRequest<T = ActionData>({
   responseTopic,
   action,
   parameters,
-  timeoutMs = 5000,
+  timeoutMs = 10000,
 }: {
   client: MqttClient;
   requestTopic: string;
