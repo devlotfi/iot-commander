@@ -133,7 +133,7 @@ export default function ManualFetchAction({ action }: ManualFetchActionProps) {
                   key={`${result.name}-${index}`}
                   variable={result}
                   value={
-                    results[result.name]
+                    results[result.name] !== undefined
                       ? JSON.stringify(results[result.name])
                       : "N/A"
                   }
