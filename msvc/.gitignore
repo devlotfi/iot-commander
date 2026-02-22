@@ -1,0 +1,55 @@
+# ==========================================
+# Visual Studio C++ Root gitignore
+# ==========================================
+
+# --- Build Outputs ---
+[Dd]ebug/
+[Rr]elease/
+x64/
+x86/
+[Aa][Rr][Mm]/
+[Aa][Rr][Mm]64/
+bin/
+obj/
+
+# --- Visual Studio Working Directory ---
+# Contains IntelliSense databases, precompiled headers, and local cache
+.vs/
+
+# --- C++ Intermediate / Temporary Files ---
+*.aps
+*.idb
+*.intermediate.manifest
+*.iobj
+*.isym
+*.pch
+*.pdb
+*.ipdb
+*.ipch
+*.log
+*.tlog
+*.recipe
+*.ilk
+*.exp
+*.lib
+*.exe
+*.sdf
+*.opensdf
+
+# --- User-specific files ---
+# These store your personal window layouts and breakpoints
+*.user
+*.userosscache
+*.sln.docstates
+*.suo
+
+# --- NuGet Packages ---
+# Packages should be restored, not committed
+packages/
+!packages/repository.config
+
+# --- External / Generated ---
+Generated\ Files/
+_ReSharper*/
+*.vsp
+*.esap

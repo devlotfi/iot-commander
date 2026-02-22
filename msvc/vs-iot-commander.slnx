@@ -1,0 +1,7 @@
+<Solution>
+  <Configurations>
+    <Platform Name="x64" />
+    <Platform Name="x86" />
+  </Configurations>
+  <Project Path="vs-iot-commander/vs-iot-commander.vcxproj" Id="941d4961-ce7f-4838-b302-1e9697a721bc" />
+</Solution>
