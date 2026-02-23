@@ -132,11 +132,7 @@ export default function ActionComponent({ action }: ActionComponentProps) {
                 <ValueRow
                   key={`${result.name}-${index}`}
                   value={result}
-                  valueData={
-                    results[result.name] !== undefined
-                      ? JSON.stringify(results[result.name])
-                      : "N/A"
-                  }
+                  valueData={results[result.name]}
                 ></ValueRow>
               ))
             ) : (
