@@ -1,27 +1,24 @@
 import { v4 as uuid } from "uuid";
 import {
-  MessageType,
-  type ActionData,
-  type ActionRequest,
-  type ActionResponse,
-} from "../types/action-call";
+  type HandlerData,
+  type HandlerResponse,
+  type QueryRequest,
+} from "../types/handler-call";
 import type { MqttClient } from "mqtt";
 
-export function mqttRequest<T = ActionData>({
+export function mqttQuery<T = HandlerData>({
   client,
   requestTopic,
   responseTopic,
-  action,
-  parameters,
+  query,
   timeoutMs = 10000,
 }: {
   client: MqttClient;
   requestTopic: string;
   responseTopic: string;
-  action: string;
-  parameters: ActionData;
+  query: string;
   timeoutMs?: number;
-}): Promise<ActionResponse<T>> {
+}): Promise<HandlerResponse<T>> {
   return new Promise((resolve, reject) => {
     const requestId = uuid();
     let finished = false;
@@ -73,10 +70,8 @@ export function mqttRequest<T = ActionData>({
         requestTopic,
         JSON.stringify({
           requestId,
-          type: MessageType.REQUEST,
-          action,
-          parameters,
-        } as ActionRequest),
+          query,
+        } as QueryRequest),
       );
     });
   });

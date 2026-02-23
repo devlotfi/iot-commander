@@ -5,13 +5,17 @@ import ChipSVG from "../assets/chip.svg";
 import EmptySVG from "../assets/empty.svg";
 import { Card, Tabs } from "@heroui/react";
 import DataRow from "../components/data-row";
-import { ResponseStatus, type Action } from "../types/action-call";
+import {
+  ResponseStatus,
+  type IOTCAction,
+  type IOTCQuery,
+} from "../types/handler-call";
 import { useQuery } from "@tanstack/react-query";
-import { mqttRequest } from "../utils/mqtt-request";
-import AutoFetchAction from "../components/action/auto-fetch-action";
 import LoadingScreen from "../components/loading-screen";
-import ManualFetchAction from "../components/action/manual-fetch-action";
 import { useTranslation } from "react-i18next";
+import { mqttQuery } from "../utils/mqtt-query";
+import QueryComponent from "../components/action/query-component";
+import ActionComponent from "../components/action/action-component";
 
 export const Route = createFileRoute("/device")({
   component: RouteComponent,
@@ -37,50 +41,47 @@ function DeviceSchema() {
   const { data, isLoading } = useQuery({
     queryKey: ["SCHEMA"],
     queryFn: async () => {
-      const res = await mqttRequest<{
-        actions: Action[];
+      const res = await mqttQuery<{
+        queries: IOTCQuery[];
+        actions: IOTCAction[];
       }>({
         client: connectionData.client,
         requestTopic: device.requestTopic,
         responseTopic: device.responseTopic,
-        action: "__SCHEMA__",
-        parameters: {},
+        query: "__SCHEMA__",
       });
       console.log("res", res);
 
       if (res.status === ResponseStatus.ERROR) throw new Error(res.code);
 
-      return res.results.actions;
+      return res.results;
     },
   });
 
   if (isLoading || !data) return <LoadingScreen></LoadingScreen>;
-
-  const autoFetchAction = data.filter((action) => action.autoFetch);
-  const manualActions = data.filter((action) => !action.autoFetch);
 
   return (
     <Tabs className="mt-[3rem]">
       <Tabs.ListContainer>
         <Tabs.List aria-label="Options">
           <Tabs.Tab id="auto-fetch">
-            {t("autoFetch")}
+            {t("queries")}
             <Tabs.Indicator />
           </Tabs.Tab>
           <Tabs.Tab id="manual-fetch">
-            {t("manual")}
+            {t("actions")}
             <Tabs.Indicator />
           </Tabs.Tab>
         </Tabs.List>
       </Tabs.ListContainer>
       <Tabs.Panel className="pt-4" id="auto-fetch">
         <div className="flex flex-col gap-[1rem]">
-          {autoFetchAction.length ? (
-            autoFetchAction.map((action, index) => (
-              <AutoFetchAction
-                key={`${action.name}-${index}`}
-                action={action}
-              ></AutoFetchAction>
+          {data.queries.length ? (
+            data.queries.map((query, index) => (
+              <QueryComponent
+                key={`${query.name}-${index}`}
+                query={query}
+              ></QueryComponent>
             ))
           ) : (
             <EmptyList></EmptyList>
@@ -89,12 +90,12 @@ function DeviceSchema() {
       </Tabs.Panel>
       <Tabs.Panel className="pt-4" id="manual-fetch">
         <div className="flex flex-col gap-[1rem]">
-          {manualActions.length ? (
-            manualActions.map((action, index) => (
-              <ManualFetchAction
+          {data.actions.length ? (
+            data.actions.map((action, index) => (
+              <ActionComponent
                 key={`${action.name}-${index}`}
                 action={action}
-              ></ManualFetchAction>
+              ></ActionComponent>
             ))
           ) : (
             <EmptyList></EmptyList>

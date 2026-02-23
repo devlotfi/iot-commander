@@ -54,8 +54,8 @@ export const EN: AppTranslation = {
   },
 
   connectToMqtt: "Start by connecting to an MQTT broker",
-  autoFetch: "Auto-Fetch",
-  manual: "Manual",
+  queries: "Queries",
+  actions: "Actions",
   empty: "Empty",
   parameters: "Parameters",
   results: "Results",
@@ -63,5 +63,5 @@ export const EN: AppTranslation = {
   send: "Send",
   online: "Online",
   searching: "Searching",
-  notConnected: "You are not connected to any broker"
+  notConnected: "You are not connected to any broker",
 };

@@ -1,12 +1,11 @@
 #pragma once
 
-#include <ArduinoJson.h>
-#include <etl/vector.h>
-
 #include "Action.h"
 #include "Config.h"
 #include "Query.h"
 #include "Types.h"
+#include <ArduinoJson.h>
+#include <etl/span.h>
 
 namespace IotCommander
 {
@@ -19,8 +18,8 @@ namespace IotCommander
       const char* name;
       const char* requestTopic;
       const char* responseTopic;
-      etl::vector<Query, IOTC_MAX_QUERIES> queries;
-      etl::vector<Action, IOTC_MAX_ACTIONS> actions;
+      etl::span<Query> queries;
+      etl::span<Action> actions;
       ArduinoJson::Allocator& requestAllocator;
       ArduinoJson::Allocator& responseAllocator;
     };
@@ -29,8 +28,8 @@ namespace IotCommander
     const char* name;
     const char* requestTopic;
     const char* responseTopic;
-    etl::vector<Query, IOTC_MAX_QUERIES> queries;
-    etl::vector<Action, IOTC_MAX_ACTIONS> actions;
+    etl::span<Query> queries;
+    etl::span<Action> actions;
     ArduinoJson::Allocator& requestAllocator;
     ArduinoJson::Allocator& responseAllocator;
 
@@ -56,6 +55,48 @@ namespace IotCommander
       ArduinoJson::serializeJson(responseDoc, jsonStringResponse, jsonStringResponseSize);
     }
 
+    void schema(
+      const char* requestId,
+      ArduinoJson::JsonDocument& responseDoc,
+      char* jsonStringResponse,
+      size_t jsonStringResponseSize
+    )
+    {
+      responseDoc.clear();
+      responseDoc["requestId"] = requestId;
+      responseDoc["status"] = ResponseStatus::OK;
+      auto resultsJson = responseDoc["results"].to<ArduinoJson::JsonObject>();
+      auto queriesJson = resultsJson["queries"].to<ArduinoJson::JsonArray>();
+      auto actionsJson = resultsJson["actions"].to<ArduinoJson::JsonArray>();
+      for (auto& query : queries)
+      {
+        auto queryJson = queriesJson.add<ArduinoJson::JsonObject>();
+        query.serialize(queryJson);
+      }
+      for (auto& action : actions)
+      {
+        auto actionJson = actionsJson.add<ArduinoJson::JsonObject>();
+        action.serialize(actionJson);
+      }
+      ArduinoJson::serializeJson(responseDoc, jsonStringResponse, jsonStringResponseSize);
+    }
+
+    void writeError(
+      etl::optional<const char*> error,
+      const char* requestId,
+      ArduinoJson::JsonDocument& responseDoc,
+      char* jsonStringResponse,
+      size_t jsonStringResponseSize
+    )
+    {
+      if (!error.has_value()) return;
+      responseDoc.clear();
+      responseDoc["requestId"] = requestId;
+      responseDoc["status"] = ResponseStatus::ERROR;
+      responseDoc["code"] = error.value();
+      ArduinoJson::serializeJson(responseDoc, jsonStringResponse, jsonStringResponseSize);
+    }
+
     struct FormatValidationResult
     {
       bool valid;
@@ -71,7 +112,7 @@ namespace IotCommander
       ArduinoJson::JsonVariant queryVariant = requestDoc["query"];
       ArduinoJson::JsonVariant parametersVariant = requestDoc["parameters"];
       if (requestIdVariant.isNull() || !requestIdVariant.is<const char*>()) return result;
-      if (queryVariant && actionVariant) return result;
+      if (!queryVariant.isNull() && !actionVariant.isNull()) return result;
       if (queryVariant && queryVariant.is<const char*>())
       {
         result.requestId = requestIdVariant.as<const char*>();
@@ -90,22 +131,6 @@ namespace IotCommander
         result.valid = true;
       }
       return result;
-    }
-
-    void writeError(
-      etl::optional<const char*> error,
-      const char* requestId,
-      ArduinoJson::JsonDocument& responseDoc,
-      char* jsonStringResponse,
-      size_t jsonStringResponseSize
-    )
-    {
-      if (!error.has_value()) return;
-      responseDoc.clear();
-      responseDoc["requestId"] = requestId;
-      responseDoc["status"] = ResponseStatus::ERROR;
-      responseDoc["code"] = error.value();
-      ArduinoJson::serializeJson(responseDoc, jsonStringResponse, jsonStringResponseSize);
     }
 
     void request(const char* jsonStringRequest, char* jsonStringResponse, size_t jsonStringResponseSize)
@@ -135,6 +160,12 @@ namespace IotCommander
 
       if (formatValidationResult.type == RequestType::QUERY)
       {
+        if (strcmp(IOTC_SCHEMA_QUERY, formatValidationResult.name) == 0)
+        {
+          schema(formatValidationResult.requestId, responseDoc, jsonStringResponse, jsonStringResponseSize);
+          return;
+        }
+
         for (auto& item : queries)
         {
           if (strcmp(item.name, formatValidationResult.name) == 0)
@@ -162,16 +193,13 @@ namespace IotCommander
         auto resultsJson = responseDoc["results"].to<ArduinoJson::JsonObject>();
         for (size_t i = 0; i < query->results.size(); i++)
         {
-          bool valid = false;
-
-          Variant::visit([&](auto& value) {
-            valid = value.validateResult(handlerResults[i], resultsJson);
-            }, query->results[i]);
+          bool valid = query->results[i].validateResult(handlerResults[i], resultsJson);
           if (!valid)
           {
-            writeError(LibraryErrors::INVALID_RESULTS, formatValidationResult.requestId, responseDoc, jsonStringResponse, jsonStringResponseSize);
+            writeError(LibraryErrors::INVALID_PARAMETERS, formatValidationResult.requestId, responseDoc, jsonStringResponse, jsonStringResponseSize);
             return;
           }
+
         }
         responseDoc["requestId"] = formatValidationResult.requestId;
         responseDoc["status"] = ResponseStatus::OK;
@@ -195,10 +223,7 @@ namespace IotCommander
 
         for (size_t i = 0; i < action->parameters.size(); i++)
         {
-          bool valid = false;
-          Variant::visit([&](auto& value) {
-            valid = value.validateParameter(parametersJson, handlerParameters[i]);
-            }, action->parameters[i]);
+          bool valid = action->parameters[i].validateParameter(parametersJson, handlerParameters[i]);
           if (!valid)
           {
             writeError(LibraryErrors::INVALID_PARAMETERS, formatValidationResult.requestId, responseDoc, jsonStringResponse, jsonStringResponseSize);
@@ -218,10 +243,7 @@ namespace IotCommander
         auto resultsJson = responseDoc["results"].to<ArduinoJson::JsonObject>();
         for (size_t i = 0; i < action->results.size(); i++)
         {
-          bool valid = false;
-          Variant::visit([&](auto& value) {
-            valid = value.validateResult(handlerResults[i], resultsJson);
-            }, action->results[i]);
+          bool valid = action->results[i].validateResult(handlerResults[i], resultsJson);
           if (!valid)
           {
             writeError(LibraryErrors::INVALID_RESULTS, formatValidationResult.requestId, responseDoc, jsonStringResponse, jsonStringResponseSize);

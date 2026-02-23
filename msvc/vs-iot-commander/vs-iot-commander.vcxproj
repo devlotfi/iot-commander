@@ -142,9 +142,7 @@
     <ClInclude Include="Serializable.h" />
     <ClInclude Include="StaticBufferAllocator.h" />
     <ClInclude Include="Types.h" />
-    <ClInclude Include="ValueBase.h" />
-    <ClInclude Include="ValueDefinitions.h" />
-    <ClInclude Include="Variant.h" />
+    <ClInclude Include="Value.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

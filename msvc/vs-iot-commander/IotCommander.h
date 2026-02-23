@@ -8,6 +8,4 @@
 #include "Serializable.h"
 #include "StaticBufferAllocator.h"
 #include "Types.h"
-#include "ValueBase.h"
-#include "ValueDefinitions.h"
-#include "Variant.h"
+#include "Value.h"

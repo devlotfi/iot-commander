@@ -54,8 +54,8 @@ export const AR: AppTranslation = {
   },
 
   connectToMqtt: "ابدأ بالاتصال بوسيط MQTT",
-  autoFetch: "جلب تلقائي",
-  manual: "يدوي",
+  queries: "استعلامات",
+  actions: "إجراءات",
   empty: "فارغ",
   parameters: "المعلمات",
   results: "النتائج",

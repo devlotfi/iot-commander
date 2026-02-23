@@ -54,8 +54,8 @@ export const FR: AppTranslation = {
   },
 
   connectToMqtt: "Commencez par vous connecter à un courtier MQTT",
-  autoFetch: "Récupération auto",
-  manual: "Manuel",
+  queries: "Requêtes",
+  actions: "Actions",
   empty: "Vide",
   parameters: "Paramètres",
   results: "Résultats",

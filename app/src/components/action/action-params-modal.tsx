@@ -1,19 +1,25 @@
 import {
   Button,
+  ColorArea,
+  ColorField,
+  ColorPicker,
+  ColorSlider,
+  ColorSwatch,
   Form,
   Label,
   ListBox,
   Modal,
   Select,
+  Slider,
   Switch,
   type UseOverlayStateReturn,
 } from "@heroui/react";
 import {
   ValueType,
-  type Action,
-  type ActionData,
-  type Variable,
-} from "../../types/action-call";
+  type HandlerData,
+  type IOTCAction,
+  type Value,
+} from "../../types/handler-call";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import ValidatedTextField from "../validated-text-field";
@@ -21,12 +27,15 @@ import { DynamicIcon } from "lucide-react/dynamic";
 import { useTranslation } from "react-i18next";
 import { Play } from "lucide-react";
 
-function setupInitialValues(action: Action): ActionData {
-  const actionData: ActionData = {};
-
+function setupInitialValues(action: IOTCAction): HandlerData {
+  if (!action.parameters) return {};
+  const actionData: HandlerData = {};
   for (const parameter of action.parameters) {
     switch (parameter.type) {
       case ValueType.INT:
+        actionData[parameter.name] = "";
+        break;
+      case ValueType.RANGE:
         actionData[parameter.name] = "";
         break;
       case ValueType.FLOAT:
@@ -44,48 +53,65 @@ function setupInitialValues(action: Action): ActionData {
       case ValueType.ENUM:
         actionData[parameter.name] = "";
         break;
+      case ValueType.COLOR:
+        actionData[parameter.name] = "#ffffff";
+        break;
     }
   }
 
   return actionData;
 }
 
-function setupYupSchema(action: Action) {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const yupObj: any = {};
-
+function setupYupSchema(action: IOTCAction) {
+  if (!action.parameters) return {};
+  const yupObj: Record<string, yup.AnySchema> = {};
   for (const parameter of action.parameters) {
+    let schema: yup.AnySchema | undefined;
+
     switch (parameter.type) {
       case ValueType.INT:
-        yupObj[parameter.name] = yup.number().integer().required();
+        schema = yup.number().integer();
+        break;
+      case ValueType.RANGE:
+        schema = yup
+          .number()
+          .integer()
+          .min(parameter.min || 0)
+          .max(parameter.max || 0);
         break;
       case ValueType.FLOAT:
-        yupObj[parameter.name] = yup.number().required();
+        schema = yup.number();
         break;
       case ValueType.DOUBLE:
-        yupObj[parameter.name] = yup.number().required();
+        schema = yup.number();
         break;
       case ValueType.BOOL:
-        yupObj[parameter.name] = yup.boolean();
+        schema = yup.boolean();
         break;
       case ValueType.STRING:
-        yupObj[parameter.name] = yup.string().required();
+        schema = yup.string();
         break;
       case ValueType.ENUM:
         if (parameter.enumDefinition) {
-          yupObj[parameter.name] = yup
+          schema = yup
             .string()
             .oneOf([...parameter.enumDefinition])
             .required();
         }
         break;
+      case ValueType.COLOR:
+        schema = yup.string();
+        break;
     }
+
+    if (!schema) continue;
+    yupObj[parameter.name] = parameter.required ? schema.required() : schema;
   }
 
   return yup.object(yupObj);
 }
 
-function FieldLabel({ parameter }: { parameter: Variable }) {
+function FieldLabel({ parameter }: { parameter: Value }) {
   return (
     <span>
       <span className="mr-[0.3rem] text-accent">{parameter.type}</span>
@@ -96,8 +122,8 @@ function FieldLabel({ parameter }: { parameter: Variable }) {
 
 interface ActionParamsModalProps {
   state: UseOverlayStateReturn;
-  action: Action;
-  onSubmit: (actionData: ActionData) => void;
+  action: IOTCAction;
+  onSubmit: (actionData: HandlerData) => void;
 }
 
 export default function ActionParamsModal({
@@ -116,6 +142,7 @@ export default function ActionParamsModal({
   });
 
   function renderFields() {
+    if (!action.parameters) return;
     return action.parameters.map((parameter, index) => {
       switch (parameter.type) {
         case ValueType.INT:
@@ -133,6 +160,24 @@ export default function ActionParamsModal({
                 step: "1",
               }}
             ></ValidatedTextField>
+          );
+        case ValueType.RANGE:
+          return (
+            <Slider
+              key={`${parameter.name}-${index}`}
+              aria-label="slider"
+              minValue={parameter.min}
+              maxValue={parameter.max}
+              value={+formik.values[parameter.name]}
+              onChange={(value) => formik.setFieldValue(parameter.name, value)}
+            >
+              <FieldLabel parameter={parameter}></FieldLabel>
+              <Slider.Output />
+              <Slider.Track>
+                <Slider.Fill />
+                <Slider.Thumb />
+              </Slider.Track>
+            </Slider>
           );
         case ValueType.FLOAT:
           return (
@@ -234,6 +279,60 @@ export default function ActionParamsModal({
               </Select>
             );
           }
+          break;
+        case ValueType.COLOR:
+          return (
+            <ColorField
+              key={`${parameter.name}-${index}`}
+              aria-label="color"
+              value={formik.values[parameter.name] as string}
+              onChange={(value) =>
+                formik.setFieldValue(parameter.name, value?.toString("hex"))
+              }
+            >
+              <FieldLabel parameter={parameter}></FieldLabel>
+              <ColorField.Group>
+                <ColorField.Prefix>
+                  <ColorPicker
+                    value={formik.values[parameter.name] as string}
+                    onChange={(value) =>
+                      formik.setFieldValue(
+                        parameter.name,
+                        value?.toString("hex"),
+                      )
+                    }
+                  >
+                    <ColorPicker.Trigger>
+                      <ColorSwatch size="sm" />
+                    </ColorPicker.Trigger>
+                    <ColorPicker.Popover className="gap-2">
+                      <ColorArea
+                        aria-label="Color area"
+                        className="max-w-full"
+                        colorSpace="hsb"
+                        xChannel="saturation"
+                        yChannel="brightness"
+                      >
+                        <ColorArea.Thumb />
+                      </ColorArea>
+
+                      <ColorSlider
+                        aria-label="Hue slider"
+                        channel="hue"
+                        className="flex-1"
+                        colorSpace="hsb"
+                      >
+                        <ColorSlider.Track>
+                          <ColorSlider.Thumb />
+                        </ColorSlider.Track>
+                      </ColorSlider>
+                    </ColorPicker.Popover>
+                  </ColorPicker>
+                </ColorField.Prefix>
+                <ColorField.Input />
+              </ColorField.Group>
+            </ColorField>
+          );
       }
     });
   }

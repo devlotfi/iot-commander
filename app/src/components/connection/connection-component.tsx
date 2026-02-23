@@ -82,6 +82,10 @@ export default function ConnectionComponent({ connection }: ConnectionProps) {
             <Button
               isIconOnly
               variant="outline"
+              isDisabled={
+                connectionData !== null &&
+                connectionData.info.id === connection.id
+              }
               className="bg-[color-mix(in_srgb,var(--surface),transparent_80%)]"
               onPress={() => editState.open()}
             >
@@ -90,6 +94,10 @@ export default function ConnectionComponent({ connection }: ConnectionProps) {
             <Button
               isIconOnly
               variant="outline"
+              isDisabled={
+                connectionData !== null &&
+                connectionData.info.id === connection.id
+              }
               className="bg-[color-mix(in_srgb,var(--surface),transparent_80%)] text-danger"
               onPress={() => deleteState.open()}
             >

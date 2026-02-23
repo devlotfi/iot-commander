@@ -1,7 +1,7 @@
 import { CircleOff } from "lucide-react";
 import { useTranslation } from "react-i18next";
 
-export default function EmptyActionRow() {
+export default function EmptyHandlerRow() {
   const { t } = useTranslation();
 
   return (

@@ -7,10 +7,10 @@ import { Plug } from "lucide-react";
 import ServerSVG from "../assets/server.svg";
 import SectionHeader from "../components/section-header";
 import type { Device } from "../types/device";
-import { MessageType, type ActionRequest } from "../types/action-call";
 import { v4 as uuid } from "uuid";
 import SearchSVG from "../assets/search.svg";
 import DeviceComponent from "../components/device-component";
+import type { QueryRequest } from "../types/handler-call";
 
 export const Route = createFileRoute("/")({
   component: RouteComponent,
@@ -52,11 +52,9 @@ function DeviceList() {
   }, [connectionData.client, connectionData.info.responseDiscoveryTopic]);
 
   useEffect(() => {
-    const request: ActionRequest = {
+    const request: QueryRequest = {
       requestId: uuid(),
-      type: MessageType.REQUEST,
-      action: "__DISCOVERY__",
-      parameters: {},
+      query: "__DISCOVERY__",
     };
 
     connectionData.client.publish(

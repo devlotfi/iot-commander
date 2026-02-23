@@ -1,14 +1,14 @@
 import { Button, Card, Surface, toast, useOverlayState } from "@heroui/react";
 import {
   ResponseStatus,
-  type Action,
-  type ActionData,
-  type ActionErrorResponse,
-} from "../../types/action-call";
+  type ErrorResponse,
+  type HandlerData,
+  type IOTCAction,
+} from "../../types/handler-call";
 import { useContext, useState } from "react";
 import { MqttContext } from "../../context/mqtt-context";
 import { useRouteContext } from "@tanstack/react-router";
-import VariableRow from "./variable-row";
+import ValueRow from "./value-row";
 import {
   Braces,
   Check,
@@ -18,25 +18,25 @@ import {
   Variable,
 } from "lucide-react";
 import { useMutation } from "@tanstack/react-query";
-import { mqttRequest } from "../../utils/mqtt-request";
-import EmptyActionRow from "./empty-action-row";
+import EmptyHandlerRow from "./empty-handler-row";
 import ActionParamsModal from "./action-params-modal";
 import { useTranslation } from "react-i18next";
+import { mqttAction } from "../../utils/mqtt-action";
 
-interface ManualFetchActionProps {
-  action: Action;
+interface ActionComponentProps {
+  action: IOTCAction;
 }
 
-export default function ManualFetchAction({ action }: ManualFetchActionProps) {
+export default function ActionComponent({ action }: ActionComponentProps) {
   const { t } = useTranslation();
   const { connectionData } = useContext(MqttContext);
   const { device } = useRouteContext({ from: "/device" });
   const state = useOverlayState();
-  const [results, setResults] = useState<ActionData>({});
+  const [results, setResults] = useState<HandlerData>({});
   if (!connectionData || !device) throw new Error("Missing data");
   const { mutate, isPending } = useMutation({
-    mutationFn: async (parameters: ActionData) => {
-      const res = await mqttRequest({
+    mutationFn: async (parameters: HandlerData) => {
+      const res = await mqttAction({
         client: connectionData.client,
         requestTopic: device.requestTopic,
         responseTopic: device.responseTopic,
@@ -56,7 +56,7 @@ export default function ManualFetchAction({ action }: ManualFetchActionProps) {
         variant: "success",
       });
     },
-    onError(error: ActionErrorResponse) {
+    onError(error: ErrorResponse) {
       toast(`${t("error")}: ${error.code}`, {
         indicator: <InfoIcon />,
         variant: "danger",
@@ -66,7 +66,7 @@ export default function ManualFetchAction({ action }: ManualFetchActionProps) {
 
   return (
     <>
-      {action.parameters.length ? (
+      {action.parameters && action.parameters.length ? (
         <ActionParamsModal
           state={state}
           action={action}
@@ -94,7 +94,7 @@ export default function ManualFetchAction({ action }: ManualFetchActionProps) {
                   "color-mix(in srgb, var(--accent), transparent 30%) 0 0 3rem 0",
               }}
               onPress={() => {
-                if (action.parameters.length) {
+                if (action.parameters && action.parameters.length) {
                   state.open();
                 } else {
                   mutate({});
@@ -110,15 +110,15 @@ export default function ManualFetchAction({ action }: ManualFetchActionProps) {
             <div className="flex">{t("parameters")}</div>
           </div>
           <Surface className="flex flex-col gap-[0.5rem] p-[0.5rem]">
-            {action.parameters.length ? (
+            {action.parameters && action.parameters.length ? (
               action.parameters.map((parameter, index) => (
-                <VariableRow
+                <ValueRow
                   key={`${parameter.name}-${index}`}
-                  variable={parameter}
-                ></VariableRow>
+                  value={parameter}
+                ></ValueRow>
               ))
             ) : (
-              <EmptyActionRow></EmptyActionRow>
+              <EmptyHandlerRow></EmptyHandlerRow>
             )}
           </Surface>
 
@@ -127,20 +127,20 @@ export default function ManualFetchAction({ action }: ManualFetchActionProps) {
             <div className="flex">{t("results")}</div>
           </div>
           <Surface className="flex flex-col gap-[0.5rem] p-[0.5rem]">
-            {action.results.length ? (
+            {action.results && action.results.length ? (
               action.results.map((result, index) => (
-                <VariableRow
+                <ValueRow
                   key={`${result.name}-${index}`}
-                  variable={result}
-                  value={
+                  value={result}
+                  valueData={
                     results[result.name] !== undefined
                       ? JSON.stringify(results[result.name])
                       : "N/A"
                   }
-                ></VariableRow>
+                ></ValueRow>
               ))
             ) : (
-              <EmptyActionRow></EmptyActionRow>
+              <EmptyHandlerRow></EmptyHandlerRow>
             )}
           </Surface>
         </Card.Content>

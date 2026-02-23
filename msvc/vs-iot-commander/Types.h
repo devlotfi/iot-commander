@@ -1,18 +1,51 @@
 #pragma once
 
+#include "Config.h"
 #include <etl/optional.h>
 #include <etl/variant.h>
-#include <mpark/variant.hpp>
-
-#include "Config.h"
 
 namespace IotCommander
 {
-  namespace Variant = mpark;
-
-  using HandlerValue = etl::optional<mpark::variant<int, float, double, bool, const char*>>;
+  using HandlerValue = etl::optional<etl::variant<int, float, double, bool, const char*>>;
   using QueryHandler = void (*)(HandlerValue[], etl::optional<const char*>&);
   using ActionHandler = void (*)(HandlerValue[], HandlerValue[], etl::optional<const char*>&);
+
+  class ValueType
+  {
+  public:
+    enum ValueTypeEnum
+    {
+      INT,
+      RANGE,
+      FLOAT,
+      DOUBLE,
+      BOOL,
+      STRING,
+      ENUM,
+      COLOR
+    };
+
+    ValueTypeEnum val;
+    constexpr ValueType(ValueTypeEnum v) : val(v) {}
+    constexpr operator ValueTypeEnum() const { return val; }
+    explicit operator bool() = delete;
+
+    const char* to_string() const {
+      switch (val) {
+      case ValueTypeEnum::INT: { return "INT"; }
+      case ValueTypeEnum::RANGE: { return "RANGE"; };
+      case ValueTypeEnum::FLOAT: { return "FLOAT"; };
+      case ValueTypeEnum::DOUBLE: { return "DOUBLE"; };
+      case ValueTypeEnum::BOOL: { return "BOOL"; };
+      case ValueTypeEnum::STRING: { return "STRING"; };
+      case ValueTypeEnum::ENUM: { return "ENUM"; };
+      case ValueTypeEnum::COLOR: { return "COLOR"; };
+      default: { return "Unknown"; };
+      }
+    }
+  };
+
+
 
   enum RequestType
   {

@@ -51,8 +51,8 @@ export interface AppTranslation {
   };
 
   connectToMqtt: string;
-  autoFetch: string;
-  manual: string;
+  queries: string;
+  actions: string;
   empty: string;
   parameters: string;
   results: string;
