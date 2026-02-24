@@ -29,7 +29,7 @@ export default function ValueRow({
         <div className="flex gap-[0.5rem]">
           <div className="flex text-[12pt] text-accent gap-[0.5rem]">
             <div className="flex">{value.type} </div>
-            {value.type === ValueType.RANGE && value.min && value.max ? (
+            {value.type === ValueType.RANGE ? (
               <div className="flex">
                 [{value.min} , {value.max}]
               </div>

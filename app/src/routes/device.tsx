@@ -14,8 +14,8 @@ import { useQuery } from "@tanstack/react-query";
 import LoadingScreen from "../components/loading-screen";
 import { useTranslation } from "react-i18next";
 import { mqttQuery } from "../utils/mqtt-query";
-import QueryComponent from "../components/action/query-component";
-import ActionComponent from "../components/action/action-component";
+import QueryComponent from "../components/handler/query-component";
+import ActionComponent from "../components/handler/action-component";
 
 export const Route = createFileRoute("/device")({
   component: RouteComponent,
@@ -39,7 +39,7 @@ function DeviceSchema() {
   if (!connectionData || !device) throw new Error("Missing data");
 
   const { data, isLoading } = useQuery({
-    queryKey: ["SCHEMA"],
+    queryKey: ["SCHEMA", device.id],
     queryFn: async () => {
       const res = await mqttQuery<{
         queries: IOTCQuery[];
