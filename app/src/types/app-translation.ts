@@ -73,4 +73,5 @@ export interface AppTranslation {
   unsubscribe: string;
   notificationsSubscribed: string;
   notificationsNotSubscribed: string;
+  mustAllowNotifications: string;
 }

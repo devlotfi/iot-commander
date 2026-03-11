@@ -76,4 +76,5 @@ export const FR: AppTranslation = {
   unsubscribe: "Se désabonner",
   notificationsSubscribed: "Abonné aux notifications",
   notificationsNotSubscribed: "Non abonné aux notifications",
+  mustAllowNotifications: "Vous devez autoriser les notifications",
 };

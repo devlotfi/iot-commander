@@ -76,4 +76,5 @@ export const AR: AppTranslation = {
   unsubscribe: "إلغاء الاشتراك",
   notificationsSubscribed: "مشترك في الإشعارات",
   notificationsNotSubscribed: "غير مشترك في الإشعارات",
+  mustAllowNotifications: "يجب عليك تفعيل التنبيهات",
 };

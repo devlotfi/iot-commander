@@ -27613,10 +27613,73 @@ subscriptions.openapi(
     const { results } = await c.env.D1_DB.prepare(
       "SELECT * FROM Subscriptions"
     ).run();
-    console.log(results);
     const payload = JSON.stringify({
       title: "Push Working",
       body: "Notification from server",
+      url: "/"
+    });
+    await Promise.allSettled(
+      results.map(
+        (subscription) => import_web_push.default.sendNotification(
+          {
+            endpoint: subscription.endpoint,
+            expirationTime: subscription.expiration_time,
+            keys: {
+              auth: subscription.auth,
+              p256dh: subscription.p256dh
+            }
+          },
+          payload
+        )
+      )
+    );
+    return c.json({
+      success: true
+    });
+  }
+);
+subscriptions.openapi(
+  createRoute({
+    method: "post",
+    path: "/send",
+    security: [
+      {
+        ApiKeyAuth: []
+      }
+    ],
+    request: {
+      body: {
+        content: {
+          "application/json": {
+            schema: external_exports.object({
+              title: external_exports.string(),
+              body: external_exports.string()
+            })
+          }
+        }
+      }
+    },
+    responses: {
+      200: {
+        content: {
+          "application/json": {
+            schema: external_exports.object({
+              success: external_exports.boolean()
+            })
+          }
+        },
+        description: "Send push notification"
+      }
+    }
+  }),
+  async (c) => {
+    const json2 = await c.req.valid("json");
+    const { results } = await c.env.D1_DB.prepare(
+      "SELECT * FROM Subscriptions"
+    ).run();
+    const payload = JSON.stringify({
+      title: json2.title,
+      body: json2.body,
       url: "/"
     });
     await Promise.allSettled(

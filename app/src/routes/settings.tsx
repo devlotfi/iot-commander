@@ -339,7 +339,7 @@ function NotificationsSettings() {
       vapidPublicKey: string;
     }) => {
       const permission = await Notification.requestPermission();
-      if (permission !== "granted") return;
+      if (permission !== "granted") throw new Error();
 
       const reg = await navigator.serviceWorker.ready;
       const sub = await reg.pushManager.subscribe({
@@ -505,7 +505,10 @@ function NotificationsSettings() {
           <ValidatedTextField
             formik={formik}
             name="apiUrl"
-            textFieldProps={{ isRequired: true }}
+            textFieldProps={{
+              isRequired: true,
+              isDisabled: data.subscription ? true : false,
+            }}
             labelProps={{ children: t("apiUrl") }}
           ></ValidatedTextField>
           <ValidatedTextField
@@ -514,6 +517,10 @@ function NotificationsSettings() {
             labelProps={{ children: t("apiSecret") }}
             inputProps={{
               type: isVisible ? "text" : "password",
+            }}
+            textFieldProps={{
+              isRequired: true,
+              isDisabled: data.subscription ? true : false,
             }}
             suffix={
               <Button
@@ -529,7 +536,10 @@ function NotificationsSettings() {
           <ValidatedTextField
             formik={formik}
             name="vapidPublicKey"
-            textFieldProps={{ isRequired: true }}
+            textFieldProps={{
+              isRequired: true,
+              isDisabled: data.subscription ? true : false,
+            }}
             labelProps={{ children: t("vapidPublicKey") }}
           ></ValidatedTextField>
 
