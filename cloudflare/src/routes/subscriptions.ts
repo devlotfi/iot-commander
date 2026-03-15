@@ -100,14 +100,14 @@ subscriptions.openapi(
         webpush.sendNotification(
           {
             endpoint: subscription.endpoint,
-            expirationTime: subscription.expirationTime ?? undefined,
+            expirationTime: subscription.expirationTime,
             keys: {
               auth: subscription.auth,
               p256dh: subscription.p256dh,
             },
           },
           payload,
-          { urgency: "high", TTL: 60 * 60 * 24 },
+          { urgency: "high" },
         ),
       ),
     );
@@ -154,7 +154,7 @@ subscriptions.openapi(
     const payload = JSON.stringify({
       title: json.title,
       body: json.body,
-      //url: "/",
+      url: "/",
     });
 
     await Promise.allSettled(
@@ -162,14 +162,14 @@ subscriptions.openapi(
         webpush.sendNotification(
           {
             endpoint: subscription.endpoint,
-            expirationTime: subscription.expirationTime ?? undefined,
+            expirationTime: subscription.expirationTime,
             keys: {
               auth: subscription.auth,
               p256dh: subscription.p256dh,
             },
           },
           payload,
-          { urgency: "high", TTL: 60 * 60 * 24 },
+          { urgency: "high" },
         ),
       ),
     );

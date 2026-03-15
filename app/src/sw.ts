@@ -26,9 +26,7 @@ registerRoute(
   new NavigationRoute(createHandlerBoundToURL("index.html"), { allowlist }),
 );
 
-self.addEventListener("install", () => {
-  self.skipWaiting();
-});
+self.skipWaiting();
 clientsClaim();
 
 /* -----------------------------
@@ -39,13 +37,13 @@ self.addEventListener("push", (event) => {
   if (!event.data) return;
 
   const data = event.data.json();
+
   const title = data.title || "Notification";
 
   const options: NotificationOptions = {
     body: data.body,
-    icon: `${self.location.origin}/pwa-192x192.png`,
-    badge: `${self.location.origin}/pwa-192x192.png`,
-    tag: data.tag || "default",
+    icon: "/pwa-192x192.png",
+    badge: "/pwa-192x192.png",
     data: data.url || "/",
   };
 
