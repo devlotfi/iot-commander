@@ -5,18 +5,11 @@
   font-family: "Rubik";
   font-style: normal;
   font-display: block;
-  src: url("./assets/Rubik.ttf");
-}
-
-@font-face {
-  font-family: "KodeMono";
-  font-style: normal;
-  font-display: block;
-  src: url("./assets/KodeMono.ttf");
+  src: url("./assets/Rubik-Italic.ttf");
 }
 
 * {
-  font-family: "KodeMono", "Rubik", sans-serif;
+  font-family: "Rubik", sans-serif;
   font-optical-sizing: auto;
   font-style: normal;
 }

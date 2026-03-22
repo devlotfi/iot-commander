@@ -26,16 +26,16 @@ function BottomTabsButton({
     <Button
       fullWidth
       variant="ghost"
-      className={cn("min-w-auto h-auto bg-transparent", className)}
+      className={cn("min-w-auto h-auto bg-transparent px-0", className)}
       onPress={() => {
         navigate({ to: path });
       }}
       {...props}
     >
-      <div className="flex flex-col items-center p-[0.3rem]">
+      <div className="flex flex-col items-center p-[0.3rem] gap-[0.2rem]">
         <div
           className={cn(
-            "flex px-[1.3rem] py-[0.1rem] rounded-full",
+            "flex justify-center items-center size-[2rem] rounded-[0.5rem]",
             isActive && "bg-accent",
           )}
         >
@@ -68,6 +68,9 @@ export default function BottomTabs() {
           {t("devices")}
         </BottomTabsButton>
         <BottomTabsButton path="/connections" icon={"satellite-dish"}>
+          {t("connections")}
+        </BottomTabsButton>
+        <BottomTabsButton path="/ai" icon={"brain-circuit"}>
           {t("connections")}
         </BottomTabsButton>
         <BottomTabsButton path="/settings" icon={"settings"}>
