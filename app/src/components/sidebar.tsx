@@ -185,6 +185,9 @@ export default function Sidebar() {
           <SidebarButton path="/connections" icon={"satellite-dish"}>
             {t("connections")}
           </SidebarButton>
+          <SidebarButton path="/ai" icon={"brain-circuit"}>
+            {t("settings")}
+          </SidebarButton>
           <SidebarButton path="/settings" icon={"settings"}>
             {t("settings")}
           </SidebarButton>
