@@ -5,10 +5,11 @@ import type { ConnectionDocType } from "../../rxdb/connection";
 import DeleteConnectionModal from "./delete-connection-modal";
 import EditConnectionModal from "./edit-connection-modal";
 import DataRow from "../data-row";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import PasswordModal from "./password-modal";
 import { useTranslation } from "react-i18next";
-import { Pen, Plug, Trash, Unplug } from "lucide-react";
+import { CloudSync, Hand, Pen, Plug, Trash, Unplug } from "lucide-react";
+import { Constants } from "../../constants";
 
 interface ConnectionProps {
   connection: ConnectionDocType;
@@ -22,6 +23,15 @@ export default function ConnectionComponent({ connection }: ConnectionProps) {
   const editState = useOverlayState();
   const deleteState = useOverlayState();
   const passwordState = useOverlayState();
+
+  const queryClient = useQueryClient();
+
+  const { data } = useQuery({
+    queryKey: ["AUTO_CONNECT"],
+    queryFn: async () => {
+      return localStorage.getItem(Constants.AUTO_CONNECT_STORAGE_KEY);
+    },
+  });
 
   const { mutate: mutateConnect, isPending: isPendingConnect } = useMutation({
     mutationFn: async (password?: string) => {
@@ -53,7 +63,7 @@ export default function ConnectionComponent({ connection }: ConnectionProps) {
           ></PasswordModal>
         ) : null}
 
-        <div className="flex flex-col md:flex-row pr-[1.5rem] gap-[1rem]">
+        <div className="flex flex-col pr-[1.5rem] gap-[1rem]">
           <div className="flex flex-col flex-1">
             <div className="flex font-bold text-[15pt] break-all">
               {connection.name}
@@ -78,9 +88,9 @@ export default function ConnectionComponent({ connection }: ConnectionProps) {
             ) : null}
           </div>
 
-          <div className="flex md:flex-col gap-[0.3rem]">
+          <div className="flex gap-[0.3rem]">
             <Button
-              isIconOnly
+              fullWidth
               variant="outline"
               isDisabled={
                 connectionData !== null &&
@@ -90,9 +100,10 @@ export default function ConnectionComponent({ connection }: ConnectionProps) {
               onPress={() => editState.open()}
             >
               <Pen></Pen>
+              {t("edit")}
             </Button>
             <Button
-              isIconOnly
+              fullWidth
               variant="outline"
               isDisabled={
                 connectionData !== null &&
@@ -102,7 +113,41 @@ export default function ConnectionComponent({ connection }: ConnectionProps) {
               onPress={() => deleteState.open()}
             >
               <Trash></Trash>
+              {t("delete")}
             </Button>
+            {data && data === connection.id ? (
+              <Button
+                fullWidth
+                variant="outline"
+                className="bg-[color-mix(in_srgb,var(--surface),transparent_80%)] text-success"
+                onPress={() => {
+                  localStorage.removeItem(Constants.AUTO_CONNECT_STORAGE_KEY);
+                  queryClient.resetQueries({
+                    queryKey: ["AUTO_CONNECT"],
+                  });
+                }}
+              >
+                <CloudSync></CloudSync>
+                Auto
+              </Button>
+            ) : (
+              <Button
+                fullWidth
+                variant="outline"
+                onPress={() => {
+                  localStorage.setItem(
+                    Constants.AUTO_CONNECT_STORAGE_KEY,
+                    connection.id,
+                  );
+                  queryClient.resetQueries({
+                    queryKey: ["AUTO_CONNECT"],
+                  });
+                }}
+              >
+                <Hand></Hand>
+                Manual
+              </Button>
+            )}
           </div>
         </div>
       </Card.Content>

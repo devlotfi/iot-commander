@@ -1,5 +1,6 @@
 import {
   useCallback,
+  useContext,
   useEffect,
   useState,
   type PropsWithChildren,
@@ -11,31 +12,37 @@ import {
 } from "../context/mqtt-context";
 import type { ConnectionDocType } from "../rxdb/connection";
 import mqtt from "mqtt";
-import { toast } from "@heroui/react";
+import { toast, useOverlayState } from "@heroui/react";
 import { SatelliteDish } from "lucide-react";
 import { useTranslation } from "react-i18next";
+import { useQuery } from "@tanstack/react-query";
+import { Constants } from "../constants";
+import { RxDBContext } from "../context/rxdb-context";
+import PasswordModal from "../components/connection/password-modal";
 
 export default function MqttProvider({ children }: PropsWithChildren) {
   const { t } = useTranslation();
+  const { rxdb } = useContext(RxDBContext);
   const [connectionData, setConnectionData] = useState(
     MqttContextInitialValue.connectionData,
   );
 
-  /* const openLoading = useCallback(() => {
-    onOpenLoading();
-    timeoutRef.current = setTimeout(() => {
-      onCloseLoading();
-      onOpenTimeout();
-    }, 10000) as unknown as number;
-  }, [onCloseLoading, onOpenLoading, onOpenTimeout]); */
+  const passwordState = useOverlayState();
 
-  /* const closeLoading = useCallback(() => {
-    if (timeoutRef.current) {
-      clearTimeout(timeoutRef.current);
-      timeoutRef.current = null;
-    }
-    onCloseLoading();
-  }, [onCloseLoading]); */
+  const { data } = useQuery({
+    queryKey: ["AUTO_CONNECT_PROVIDER"],
+    queryFn: async () => {
+      const id = localStorage.getItem(Constants.AUTO_CONNECT_STORAGE_KEY);
+      if (!id) return null;
+      const data = await rxdb.connections.findOne(id).exec();
+      if (data && data.password) {
+        mqttConnect(data, data.password);
+      } else if (data && !data.password) {
+        passwordState.open();
+      }
+      return data;
+    },
+  });
 
   const mqttConnect = useCallback(
     async (connection: ConnectionDocType, password?: string) => {
@@ -165,6 +172,12 @@ export default function MqttProvider({ children }: PropsWithChildren) {
           mqttDisconnect,
         }}
       >
+        {data && data.username ? (
+          <PasswordModal
+            state={passwordState}
+            onSubmit={(password) => mqttConnect(data, password)}
+          ></PasswordModal>
+        ) : null}
         {children}
       </MqttContext.Provider>
     </>
