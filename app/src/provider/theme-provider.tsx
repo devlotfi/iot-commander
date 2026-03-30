@@ -4,6 +4,7 @@ import { ThemeContextInitialValue } from "../context/theme-context";
 import { ThemeOptions } from "../types/theme-options";
 import { ThemeContext } from "../context/theme-context";
 import { Constants } from "../constants";
+import { useMediaQuery } from "@heroui/react";
 
 const getSystemTheme = (): AppliedThemes => {
   if (
@@ -48,6 +49,7 @@ export function ThemeProvider({ children }: PropsWithChildren) {
   const [appliedTheme, setAppliedTheme] =
     useState<AppliedThemes>(initAppliedTheme());
   const [accentColor, setAccentColor] = useState<string>(initAccentColor());
+  const isLarge = useMediaQuery("(min-width: 768px)");
 
   const applyTheme = (theme: ThemeOptions) => {
     const element = document.getElementById("theme-provider") as HTMLElement;
@@ -92,13 +94,21 @@ export function ThemeProvider({ children }: PropsWithChildren) {
     if (!metaTag) return;
     switch (appliedTheme) {
       case ThemeOptions.LIGHT:
-        metaTag.setAttribute("content", "#d4d4d4");
+        if (isLarge) {
+          metaTag.setAttribute("content", "#cccccc");
+        } else {
+          metaTag.setAttribute("content", "#d4d4d4");
+        }
         break;
       case ThemeOptions.DARK:
-        metaTag.setAttribute("content", "#282B32");
+        if (isLarge) {
+          metaTag.setAttribute("content", "#23282b");
+        } else {
+          metaTag.setAttribute("content", "#282B32");
+        }
         break;
     }
-  }, [appliedTheme]);
+  }, [appliedTheme, isLarge]);
 
   useEffect(() => {
     const handler = () => {
