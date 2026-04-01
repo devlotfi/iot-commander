@@ -201,7 +201,7 @@ export default function Sidebar() {
             {t("connections")}
           </SidebarButton>
           <SidebarButton path="/ai" icon={"brain-circuit"}>
-            {t("settings")}
+            {t("aiChat")}
           </SidebarButton>
           <SidebarButton path="/settings" icon={"settings"}>
             {t("settings")}

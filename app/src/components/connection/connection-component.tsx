@@ -100,7 +100,7 @@ export default function ConnectionComponent({ connection }: ConnectionProps) {
               onPress={() => editState.open()}
             >
               <Pen></Pen>
-              {t("edit")}
+              <div className="hidden md:flex">{t("edit")}</div>
             </Button>
             <Button
               fullWidth
@@ -113,7 +113,7 @@ export default function ConnectionComponent({ connection }: ConnectionProps) {
               onPress={() => deleteState.open()}
             >
               <Trash></Trash>
-              {t("delete")}
+              <div className="hidden md:flex">{t("delete")}</div>
             </Button>
             {data && data === connection.id ? (
               <Button

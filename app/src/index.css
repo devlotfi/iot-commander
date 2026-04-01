@@ -131,6 +131,21 @@
       inset;
   }
 
+  /*
+     .card {
+    @apply border border-border;
+    background:
+      linear-gradient(
+        120deg,
+        color-mix(in srgb, var(--surface), transparent 80%),
+        transparent 55%
+      ),
+      color-mix(in srgb, var(--surface), transparent 85%);
+    box-shadow: color-mix(in srgb, var(--surface), transparent 80%) 0px 0px 0px
+      2px inset;
+  }
+  */
+
   .surface {
     @apply rounded-2xl;
   }
@@ -172,6 +187,28 @@
     background: color-mix(in srgb, var(--surface), transparent 80%);
     box-shadow: color-mix(in srgb, var(--surface), transparent 80%) 0px -3px 0px
       inset;
+  }
+
+  .avatar {
+    @apply border border-border;
+    background: color-mix(in srgb, var(--surface), transparent 80%) !important;
+  }
+
+  .avatar__fallback {
+    background: transparent;
+  }
+
+  .table-root {
+    background: transparent;
+  }
+
+  .table__header {
+    @apply text-foreground;
+    background: transparent;
+  }
+
+  .table__cell {
+    background: color-mix(in srgb, var(--surface), transparent 60%);
   }
 }
 
@@ -236,7 +273,7 @@
 
     --accent: #e16349;
 
-    --border: #3e4047;
+    --border: #41444d;
     --separator: #6f7787;
 
     --field-background: var(--surface);

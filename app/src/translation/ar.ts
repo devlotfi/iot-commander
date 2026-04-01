@@ -11,6 +11,17 @@ export const AR: AppTranslation = {
   reset: "إعادة ضبط",
   deleteConfirmation: "هل أنت متأكد أنك تريد حذف هذا العنصر؟",
   cancel: "إلغاء",
+  aiChat: "دردشة الذكاء الاصطناعي",
+  save: "حفظ",
+  clear: "مسح",
+  auto: "تلقائي",
+  manual: "يدوي",
+  typeSomething: "اكتب شيئاً...",
+  missingApiSecret: "مفتاح API السري مفقود",
+  providerGeminiApiSecret:
+    "يجب توفير مفتاح Gemini API السري لاستخدام ميزات الذكاء الاصطناعي",
+  welcome: "مرحباً",
+  useTheAIChat: "استخدم دردشة الذكاء الاصطناعي للتحكم في أجهزة IoT",
 
   addDevice: "إضافة جهاز",
   editDevice: "تعديل الجهاز",

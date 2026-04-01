@@ -1,17 +1,40 @@
 import { type Schema, Type, type FunctionDeclaration } from "@google/genai";
 
+import type { Value } from "./types/handler-call";
+import type { DeviceSchema } from "./types/device";
+
+// ----------------------------
+// Types
+// ----------------------------
+
+export type FunctionMeta = {
+  deviceId: string;
+  type: "query" | "action";
+  originalName: string;
+};
+
+export type GeminiFunctionResult = {
+  functions: FunctionDeclaration[];
+  lookup: Map<string, FunctionMeta>;
+};
+
 // ----------------------------
 // Helpers
 // ----------------------------
 
-import type { Value } from "./types/handler-call";
-import type { DeviceSchema } from "./types/device";
+function normalizeName(name?: string): string {
+  if (!name || typeof name !== "string") {
+    return "unknown";
+  }
 
-function normalizeName(name: string): string {
   return name
     .toLowerCase()
     .replace(/[^a-z0-9]+/g, "_")
     .replace(/^_+|_+$/g, "");
+}
+
+function normalizeDevicePrefix(device: DeviceSchema): string {
+  return normalizeName(device.name ?? device.id ?? "device");
 }
 
 function mapValueToSchema(value: Value): Schema {
@@ -60,21 +83,57 @@ function mapValueToSchema(value: Value): Schema {
   return schema;
 }
 
+function buildObjectSchema(values?: Value[]): Schema | undefined {
+  if (!values || values.length === 0) return undefined;
+
+  const properties: Record<string, Schema> = {};
+  const required: string[] = [];
+
+  for (const v of values) {
+    if (!v?.name) continue;
+
+    const key = normalizeName(v.name);
+    properties[key] = mapValueToSchema(v);
+
+    if (v.required) {
+      required.push(key);
+    }
+  }
+
+  return {
+    type: Type.OBJECT,
+    properties,
+    ...(required.length ? { required } : {}),
+  };
+}
+
 // ----------------------------
 // Main Transformer
 // ----------------------------
 
 export function deviceSchemasToGeminiFunctions(
   devices: DeviceSchema[],
-): FunctionDeclaration[] {
+): GeminiFunctionResult {
   const functions: FunctionDeclaration[] = [];
+  const lookup = new Map<string, FunctionMeta>();
 
   for (const device of devices) {
+    if (!device?.id) {
+      console.warn("Skipping device with missing id", device);
+      continue;
+    }
+
+    const devicePrefix = normalizeDevicePrefix(device);
     const deviceIdEnum = [device.id];
 
     // -------- Queries --------
     for (const query of device.queries || []) {
-      const fnName = normalizeName(`get_${query.name}`);
+      if (!query?.name) {
+        console.warn("Skipping query with missing name", query);
+        continue;
+      }
+
+      const fnName = `${devicePrefix}_${normalizeName(`get_${query.name}`)}`;
 
       const parameters: Schema = {
         type: Type.OBJECT,
@@ -87,16 +146,30 @@ export function deviceSchemasToGeminiFunctions(
         required: ["deviceId"],
       };
 
+      const response = buildObjectSchema(query.results);
+
       functions.push({
         name: fnName,
-        description: `Query "${query.name}" from device ${device.name ?? device.id}`,
+        description: `Query "${query.name}" from device "${device.name ?? device.id}"`,
         parameters,
+        ...(response ? { response } : {}),
+      });
+
+      lookup.set(fnName, {
+        deviceId: device.id,
+        type: "query",
+        originalName: query.name,
       });
     }
 
     // -------- Actions --------
     for (const action of device.actions || []) {
-      const fnName = normalizeName(action.name);
+      if (!action?.name) {
+        console.warn("Skipping action with missing name", action);
+        continue;
+      }
+
+      const fnName = `${devicePrefix}_${normalizeName(action.name)}`;
 
       const properties: Record<string, Schema> = {
         deviceId: {
@@ -108,8 +181,9 @@ export function deviceSchemasToGeminiFunctions(
       const required: string[] = ["deviceId"];
 
       for (const param of action.parameters || []) {
-        const key = normalizeName(param.name);
+        if (!param?.name) continue;
 
+        const key = normalizeName(param.name);
         properties[key] = mapValueToSchema(param);
 
         if (param.required) {
@@ -123,13 +197,25 @@ export function deviceSchemasToGeminiFunctions(
         required,
       };
 
+      const response = buildObjectSchema(action.results);
+
       functions.push({
         name: fnName,
-        description: `Execute "${action.name}" on device ${device.name ?? device.id}`,
+        description: `Execute "${action.name}" on device "${device.name ?? device.id}"`,
         parameters,
+        ...(response ? { response } : {}),
+      });
+
+      lookup.set(fnName, {
+        deviceId: device.id,
+        type: "action",
+        originalName: action.name,
       });
     }
   }
 
-  return functions;
+  return {
+    functions,
+    lookup,
+  };
 }

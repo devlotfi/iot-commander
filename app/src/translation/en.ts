@@ -11,6 +11,17 @@ export const EN: AppTranslation = {
   reset: "Reset",
   deleteConfirmation: "Are you sure you want to delete this item?",
   cancel: "Cancel",
+  aiChat: "AI Chat",
+  save: "Save",
+  clear: "Clear",
+  auto: "Auto",
+  manual: "Manual",
+  typeSomething: "Type something...",
+  missingApiSecret: "Missing API Secret",
+  providerGeminiApiSecret:
+    "You must provide a gemini API Secret to use AI functionality",
+  welcome: "Welcome",
+  useTheAIChat: "Use the AI Chat to control IoT devices",
 
   addDevice: "Add device",
   editDevice: "Edit device",

@@ -16,6 +16,7 @@ import AppProvider from "./provider/app-provider";
 import NotFound from "./components/not-found";
 import RxDBProvider from "./provider/rxdb-provider";
 import MqttProvider from "./provider/mqtt-provider";
+import GeminiProvider from "./provider/gemini-provider";
 
 const history = createHashHistory();
 
@@ -43,7 +44,9 @@ createRoot(document.getElementById("root")!).render(
             <AppProvider>
               <RxDBProvider>
                 <MqttProvider>
-                  <RouterProvider router={router}></RouterProvider>
+                  <GeminiProvider>
+                    <RouterProvider router={router}></RouterProvider>
+                  </GeminiProvider>
                 </MqttProvider>
               </RxDBProvider>
             </AppProvider>

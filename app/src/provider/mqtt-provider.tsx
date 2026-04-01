@@ -31,6 +31,7 @@ export default function MqttProvider({ children }: PropsWithChildren) {
 
   const { data } = useQuery({
     queryKey: ["AUTO_CONNECT_PROVIDER"],
+    refetchOnWindowFocus: false,
     queryFn: async () => {
       const id = localStorage.getItem(Constants.AUTO_CONNECT_STORAGE_KEY);
       if (!id) return null;
