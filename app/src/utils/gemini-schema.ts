@@ -1,7 +1,7 @@
 import { type Schema, Type, type FunctionDeclaration } from "@google/genai";
 
-import type { Value } from "./types/handler-call";
-import type { DeviceSchema } from "./types/device";
+import type { Value } from "../types/handler-call";
+import type { DeviceSchema } from "../types/device";
 
 // ----------------------------
 // Types

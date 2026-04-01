@@ -6,9 +6,9 @@ import {
   type IOTCQuery,
 } from "../../types/handler-call";
 import { useDiscoverDevices } from "../../hooks/use-dsicover-devices";
-import { useMutation, useQueries, useQuery } from "@tanstack/react-query";
+import { useMutation, useQueries } from "@tanstack/react-query";
 import { mqttQuery } from "../../utils/mqtt-query";
-import { deviceSchemasToGeminiFunctions } from "../../test";
+import { deviceSchemasToGeminiFunctions } from "../../utils/gemini-schema";
 import {
   Avatar,
   Button,
@@ -52,14 +52,14 @@ export default function AIDasboard() {
     });
   }, [contents]);
 
-  const { data } = useQuery({
+  /* const { data } = useQuery({
     refetchOnWindowFocus: false,
     queryKey: ["GEMINI_MODELS"],
     queryFn: async () => {
       const models = await ai.models.list();
       console.log(JSON.stringify(models));
     },
-  });
+  }); */
 
   const deviceSchemaQueries = useQueries({
     queries: devices.map((device) => ({
@@ -240,16 +240,8 @@ export default function AIDasboard() {
             </Select.Trigger>
             <Select.Popover>
               <ListBox>
-                <ListBox.Item id="florida" textValue="Florida">
-                  Florida
-                  <ListBox.ItemIndicator />
-                </ListBox.Item>
-                <ListBox.Item id="delaware" textValue="Delaware">
-                  Delaware
-                  <ListBox.ItemIndicator />
-                </ListBox.Item>
-                <ListBox.Item id="california" textValue="California">
-                  California
+                <ListBox.Item id="test" textValue="Test">
+                  Test
                   <ListBox.ItemIndicator />
                 </ListBox.Item>
               </ListBox>

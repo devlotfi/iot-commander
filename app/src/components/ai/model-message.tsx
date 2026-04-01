@@ -3,7 +3,7 @@ import { MqttContext } from "../../context/mqtt-context";
 import { ResponseStatus, type HandlerData } from "../../types/handler-call";
 import { useQueries } from "@tanstack/react-query";
 import { mqttQuery } from "../../utils/mqtt-query";
-import { type FunctionMeta } from "../../test";
+import { type FunctionMeta } from "../../utils/gemini-schema";
 import { Avatar, Card, Spinner, Table } from "@heroui/react";
 import { type Content } from "@google/genai";
 import { BrainCircuit, Check, CircleX } from "lucide-react";
