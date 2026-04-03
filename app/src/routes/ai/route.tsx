@@ -40,7 +40,7 @@ function RouteComponent() {
                   className: "text-[16pt]",
                 }}
               >
-                {t("aiChat")}
+                {t("ai")}
               </SectionHeader>
 
               <Tabs

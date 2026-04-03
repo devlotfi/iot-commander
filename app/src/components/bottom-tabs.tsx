@@ -71,7 +71,7 @@ export default function BottomTabs() {
           {t("connections")}
         </BottomTabsButton>
         <BottomTabsButton path="/ai" icon={"brain-circuit"}>
-          {t("aiChat")}
+          {t("ai")}
         </BottomTabsButton>
         <BottomTabsButton path="/settings" icon={"settings"}>
           {t("settings")}

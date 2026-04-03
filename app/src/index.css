@@ -166,7 +166,7 @@
       inset;
   }
   .tabs__tab {
-    @apply p-[1.2rem];
+    @apply p-[1.2rem] whitespace-nowrap;
   }
   .tabs__indicator {
     @apply text-foreground rounded-2xl;

@@ -9,7 +9,6 @@ export interface AppTranslation {
   reset: string;
   deleteConfirmation: string;
   cancel: string;
-  aiChat: string;
   save: string;
   clear: string;
   auto: string;
@@ -19,6 +18,11 @@ export interface AppTranslation {
   providerGeminiApiSecret: string;
   welcome: string;
   useTheAIChat: string;
+  ai: string;
+  chat: string;
+  live: string;
+  start: string;
+  stop: string;
 
   addDevice: string;
   editDevice: string;
