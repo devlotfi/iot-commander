@@ -282,11 +282,19 @@ export default function ActionParamsModal({
           break;
         case ValueType.COLOR:
           return (
-            <ColorField key={`${parameter.name}-${index}`} aria-label="color">
+            <ColorField
+              key={`${parameter.name}-${index}`}
+              aria-label="color"
+              value={formik.values[parameter.name] as string}
+              onChange={(value) =>
+                formik.setFieldValue(parameter.name, value?.toString("hex"))
+              }
+            >
               <FieldLabel parameter={parameter}></FieldLabel>
               <ColorField.Group>
                 <ColorField.Prefix>
                   <ColorPicker
+                    value={formik.values[parameter.name] as string}
                     onChange={(value) =>
                       formik.setFieldValue(
                         parameter.name,
@@ -295,16 +303,7 @@ export default function ActionParamsModal({
                     }
                   >
                     <ColorPicker.Trigger>
-                      <ColorSwatch
-                        size="sm"
-                        color={
-                          /^#[0-9A-F]{6}$/i.test(
-                            formik.values[parameter.name] as string,
-                          )
-                            ? (formik.values[parameter.name] as string)
-                            : undefined
-                        }
-                      />
+                      <ColorSwatch size="sm" />
                     </ColorPicker.Trigger>
                     <ColorPicker.Popover className="gap-2">
                       <ColorArea
@@ -330,12 +329,7 @@ export default function ActionParamsModal({
                     </ColorPicker.Popover>
                   </ColorPicker>
                 </ColorField.Prefix>
-                <ColorField.Input
-                  value={formik.values[parameter.name] as string}
-                  onChange={(e) =>
-                    formik.setFieldValue(parameter.name, e.target.value)
-                  }
-                />
+                <ColorField.Input />
               </ColorField.Group>
             </ColorField>
           );
