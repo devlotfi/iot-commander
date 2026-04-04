@@ -61,6 +61,7 @@ An app to controll IOT devices using MQTT
 
 - We use a web PWA client to control IOT Devices using MQTT
 - It is possible to query data and perform actions
+- Its also possible to control devices using AI (Gemini), By using a classic chat interface or real-time voice conversation
 - IOT Devices can send notifications to the Cloudflare worker
 - The Cloudflare worker notifies the user via Web Push API
 
