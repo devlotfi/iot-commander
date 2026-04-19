@@ -13,7 +13,7 @@ interface ThemeContext {
 export const ThemeContextInitialValue: ThemeContext = {
   themeOption: ThemeOptions.SYSTEM,
   appliedTheme: ThemeOptions.LIGHT,
-  accentColor: "#e16349",
+  accentColor: "#E8362D",
   setTheme() {},
   applyAccentColor() {},
 };

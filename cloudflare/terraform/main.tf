@@ -3,7 +3,7 @@ terraform {
     organization = "personal-deployment"
 
     workspaces {
-      name = "iot-commander"
+      name = "esp-commander"
     }
   }
 
@@ -43,7 +43,7 @@ EOF
 
 resource "cloudflare_d1_database" "db" {
   account_id = var.account_id
-  name       = "iot-commander-d1"
+  name       = "esp-commander-d1"
 
   read_replication = {
     mode = "disabled"
@@ -56,7 +56,7 @@ resource "cloudflare_d1_database" "db" {
 
 resource "cloudflare_worker" "worker" {
   account_id = var.account_id
-  name       = "iot-commander-worker"
+  name       = "esp-commander-worker"
 
   observability = {
     enabled            = true

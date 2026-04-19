@@ -1,6 +1,6 @@
-<img src="https://raw.githubusercontent.com/devlotfi/iot-commander/master/github-assets/github-banner.png">
+<img src="https://raw.githubusercontent.com/devlotfi/esp-commander/master/github-assets/github-banner.png">
 
-# 📜 iot-commander
+# 📜 esp-commander
 
 An app to controll IOT devices using MQTT
 
@@ -66,13 +66,13 @@ An app to controll IOT devices using MQTT
 - IOT Devices can send notifications to the Cloudflare worker
 - The Cloudflare worker notifies the user via Web Push API
 
-<img src="https://raw.githubusercontent.com/devlotfi/iot-commander/master/github-assets/working-diagram.png">
+<img src="https://raw.githubusercontent.com/devlotfi/esp-commander/master/github-assets/working-diagram.png">
 
 # Web App
 
-<img src="https://raw.githubusercontent.com/devlotfi/iot-commander/master/github-assets/preview-1.png">
-<img src="https://raw.githubusercontent.com/devlotfi/iot-commander/master/github-assets/preview-2.png">
-<img src="https://raw.githubusercontent.com/devlotfi/iot-commander/master/github-assets/preview-3.png">
-<img src="https://raw.githubusercontent.com/devlotfi/iot-commander/master/github-assets/preview-4.png">
-<img src="https://raw.githubusercontent.com/devlotfi/iot-commander/master/github-assets/preview-5.png">
-<img src="https://raw.githubusercontent.com/devlotfi/iot-commander/master/github-assets/preview-6.png">
+<img src="https://raw.githubusercontent.com/devlotfi/esp-commander/master/github-assets/preview-1.png">
+<img src="https://raw.githubusercontent.com/devlotfi/esp-commander/master/github-assets/preview-2.png">
+<img src="https://raw.githubusercontent.com/devlotfi/esp-commander/master/github-assets/preview-3.png">
+<img src="https://raw.githubusercontent.com/devlotfi/esp-commander/master/github-assets/preview-4.png">
+<img src="https://raw.githubusercontent.com/devlotfi/esp-commander/master/github-assets/preview-5.png">
+<img src="https://raw.githubusercontent.com/devlotfi/esp-commander/master/github-assets/preview-6.png">

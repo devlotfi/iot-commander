@@ -1,5 +1,5 @@
 {
-  "name": "iot-commander",
+  "name": "esp-commander",
   "version": "0.0.0",
   "private": true,
   "scripts": {
@@ -11,21 +11,21 @@
     "cf-typegen": "wrangler types"
   },
   "devDependencies": {
-    "@cloudflare/vitest-pool-workers": "^0.12.4",
-    "@types/node": "^25.4.0",
-    "drizzle-kit": "^0.31.9",
+    "@cloudflare/vitest-pool-workers": "^0.14.7",
+    "@types/node": "^25.6.0",
+    "drizzle-kit": "^0.31.10",
     "tsx": "^4.21.0",
-    "typescript": "^5.5.2",
-    "vitest": "~3.2.0",
-    "wrangler": "^4.72.0"
+    "typescript": "^6.0.3",
+    "vitest": "~4.1.4",
+    "wrangler": "^4.83.0"
   },
   "dependencies": {
-    "@hono/zod-openapi": "^1.2.2",
-    "@scalar/hono-api-reference": "^0.10.2",
+    "@hono/zod-openapi": "^1.3.0",
+    "@scalar/hono-api-reference": "^0.10.9",
     "@types/web-push": "^3.6.4",
-    "dotenv": "^17.3.1",
-    "drizzle-orm": "^0.45.1",
-    "hono": "^4.12.7",
+    "dotenv": "^17.4.2",
+    "drizzle-orm": "^0.45.2",
+    "hono": "^4.12.14",
     "web-push": "^3.6.7",
     "zod": "^4.3.6"
   }

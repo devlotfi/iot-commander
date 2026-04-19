@@ -14,7 +14,7 @@ export default function RxDBProvider({ children }: PropsWithChildren) {
     queryKey: ["RXDB"],
     queryFn: async () => {
       const rxDb = await createRxDatabase<AppRxDatabase>({
-        name: "iot-commander",
+        name: "esp-commander",
         storage: wrappedValidateAjvStorage({
           storage: getRxStorageDexie(),
         }),

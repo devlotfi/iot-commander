@@ -234,7 +234,7 @@
     --danger: #d42326;
     --danger-foreground: var(--snow);
 
-    --accent: #e16349;
+    --accent: #e8362d;
 
     --border: #eeedef;
     --separator: #c0c4cf;
@@ -274,7 +274,7 @@
     --overlay: var(--background);
     --overlay-foreground: var(--foreground);
 
-    --accent: #e16349;
+    --accent: #e8362d;
 
     --border: #41444d;
     --separator: #6f7787;

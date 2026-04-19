@@ -45,9 +45,9 @@ export default function Navbar() {
               sidebarOpen && "lg:opacity-0",
             )}
           >
-            <LogoSVG className="w-[3rem] md:w-[3.3rem] ml-[0.5rem]" />
+            <LogoSVG className="w-[2.2rem] md:w-[2.5rem] ml-[0.5rem]" />
             <div className="flex font-bold text-[14pt] md:text-[16pt]">
-              IOT COMMANDER
+              ESP COMMANDER
             </div>
           </div>
         </div>

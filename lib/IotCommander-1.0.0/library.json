@@ -5,7 +5,7 @@
   "keywords": ["embedded", "json", "variant"],
   "repository": {
     "type": "git",
-    "url": "https://github.com/devlotfi/iot-commander"
+    "url": "https://github.com/devlotfi/esp-commander"
   },
   "authors": [
     {

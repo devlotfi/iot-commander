@@ -100,7 +100,7 @@ function GithubButton({ className, ...props }: Omit<ButtonProps, "children">) {
   return (
     <Tooltip delay={0} isDisabled={isLarge && sidebarOpen}>
       <a
-        href="https://github.com/devlotfi/iot-commander"
+        href="https://github.com/devlotfi/esp-commander"
         target="_blank"
         className="flex flex-1 justify-center items-center"
       >
@@ -186,9 +186,9 @@ export default function Sidebar() {
               !sidebarOpen && "opacity-0",
             )}
           >
-            <LogoSVG className="w-[3rem] md:w-[3.3rem]" />
+            <LogoSVG className="w-[2.2rem] md:w-[2.5rem]" />
             <div className="flex font-bold text-[12pt] md:text-[13pt] whitespace-nowrap">
-              IOT COMMANDER
+              ESP COMMANDER
             </div>
           </div>
         </div>

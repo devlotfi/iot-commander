@@ -50,8 +50,8 @@ export default function AddConnectionModal({ state }: AddConnectionModalProps) {
       url: "",
       username: "",
       password: "",
-      discoveryTopic: "iot-commander/discovery/request",
-      responseDiscoveryTopic: "iot-commander/discovery/response",
+      discoveryTopic: "esp-commander/discovery/request",
+      responseDiscoveryTopic: "esp-commander/discovery/response",
     },
     validationSchema: yup.object({
       name: yup.string().required(),
