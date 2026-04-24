@@ -11,7 +11,7 @@ export function mqttQuery<T = HandlerData>({
   requestTopic,
   responseTopic,
   query,
-  timeoutMs = 10000,
+  timeoutMs = 5000,
 }: {
   client: MqttClient;
   requestTopic: string;
